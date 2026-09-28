@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hadrien Basch – projets</title>
+<meta name="description" content="Je conçois des outils numériques utiles et des univers en 3D. Projet en cours : Coup de pouce, un outil gratuit pour comprendre ses courriers administratifs.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{--bg:#F6F7F9;--paper:#FFFFFF;--ink:#171B26;--soft:#555E70;--rule:#DCE0E7;--marker:#FFE14D;--accent:#2A5DB0;
+  --display:"Young Serif",Georgia,serif;--body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#10131A;--paper:#181D28;--ink:#EDF0F5;--soft:#A9B1C2;--rule:#2A3142;--marker:#E8CC3F;--accent:#8DB2FF}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);padding:0 16px 64px}
+.wrap{max-width:860px;margin:0 auto}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--marker);outline-offset:3px}
+p{margin:0;max-width:62ch}
+h1,h2,h3{margin:0;font-weight:400;font-family:var(--display);text-wrap:balance}
+.mark{background:linear-gradient(transparent 14%,var(--marker) 14%,var(--marker) 86%,transparent 86%);color:#171B26;padding:0 .12em}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:12px;flex-wrap:wrap}
+header.top b{font-family:var(--display);font-weight:400;font-size:1.15rem}
+header.top nav{display:flex;gap:18px;font-size:.95rem}
+.intro{padding:40px 0 48px;display:flex;flex-direction:column;gap:18px;border-bottom:1px solid var(--rule)}
+.intro h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.08;max-width:18ch}
+.intro p{font-size:1.12rem;color:var(--soft)}
+section{padding:44px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:20px}
+.label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--soft);font-family:var(--body)}
+.feature{background:var(--paper);border:1px solid var(--rule);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:1.1fr 1fr}
+@media (max-width:720px){.feature{grid-template-columns:1fr}}
+.feature .txt{padding:26px;display:flex;flex-direction:column;gap:14px}
+.feature h2{font-size:1.8rem;line-height:1.1}
+.status{display:inline-block;width:fit-content;font-size:.8rem;font-weight:700;padding:4px 10px;border-radius:999px;background:#E4F3EA;color:#1F6B40}
+@media (prefers-color-scheme:dark){.status{background:#15301F;color:#7ED6A2}}
+.feature ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.shot{background:#E9EDF2;min-height:260px;display:grid;place-items:center;color:#555E70;font-size:.9rem;text-align:center;padding:20px;border-left:1px solid var(--rule)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+@media (prefers-color-scheme:dark){.shot{background:#1D2330;color:#A9B1C2}}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:9px;border:2px solid var(--ink);color:var(--ink);text-decoration:none;font-weight:700;font-size:.95rem}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.why h3{font-size:1.15rem;margin-bottom:6px}
+.why p{color:var(--soft);font-size:.98rem}
+.other{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:1.2rem}
+.card p{color:var(--soft);font-size:.96rem}
+.contact p{font-size:1.1rem}
+footer{padding-top:28px;color:var(--soft);font-size:.88rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <b>Hadrien Basch</b>
+    <nav><a href="#coup-de-pouce">Coup de pouce</a><a href="#autres">3D</a><a href="#contact">Contact</a></nav>
+  </header>
+
+  <div class="intro">
+    <h1>Je fabrique des outils qui <span class="mark">rendent service</span>.</h1>
+    <p>Je m'appelle Hadrien. Je crée des univers en 3D sous Unreal Engine, et en ce moment je consacre mon temps libre à Coup de pouce, un outil gratuit pour que plus personne ne reste seul devant un courrier administratif.</p>
+  </div>
+
+  <section id="coup-de-pouce">
+    <p class="label">Projet en cours</p>
+    <article class="feature">
+      <div class="txt">
+        <span class="status">En test, gratuit et non lucratif</span>
+        <h2>Coup de pouce</h2>
+        <p>Une lettre de la CAF, des impôts ou d'un commissaire de justice fait souvent peur, surtout quand on est loin du numérique ou du français administratif. Coup de pouce l'explique en mots simples.</p>
+        <ul>
+          <li><b>Mon courrier expliqué</b> : gravité, démarches, date limite, montants, réponse type</li>
+          <li><b>Arnaque ou pas ?</b> : vérifier un SMS ou un email suspect</li>
+          <li><b>Écrire une lettre</b> : remise de dette, délai, recours, résiliation</li>
+          <li><b>Majeur demain</b> : la checklist de sortie de l'aide sociale à l'enfance</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://hbasch.github.io/coupdepouce/">Essayer le site</a>
+          <a class="btn" href="https://github.com/hbasch/coupdepouce">Voir le code</a>
+        </div>
+      </div>
+      <div class="shot">
+        <!-- Remplace ce bloc par une capture d'écran : <img src="capture-coupdepouce.png" alt="L'outil Mon courrier expliqué sur téléphone"> -->
+        Ajoute ici une capture d'écran du site sur téléphone
+      </div>
+    </article>
+
+    <div class="why">
+      <div><h3>La vie privée d'abord</h3><p>La photo du courrier est lue directement sur le téléphone et n'est jamais envoyée. L'analyse se fait sur place, sans IA en ligne : rien n'est envoyé ni conservé.</p></div>
+      <div><h3>Pensé pour tout le monde</h3><p>Grande police adaptée aux personnes malvoyantes, gros boutons, lecture à voix haute. Pas de compte, pas de cookies, pas de publicité.</p></div>
+      <div><h3>Construit avec le terrain</h3><p>L'outil ne remplace pas l'accompagnement humain : il oriente vers France Services, les CCAS et les associations. Je cherche des structures pour le tester et l'améliorer.</p></div>
+    </div>
+  </section>
+
+  <section id="autres">
+    <p class="label">Mes autres travaux</p>
+    <div class="other">
+      <div class="card">
+        <h3>Univers 3D sous Unreal Engine</h3>
+        <p>Mes créations en 3D temps réel réalisées sous Unreal Engine.</p>
+        <a href="https://www.artstation.com/hbasch">Voir mon portfolio ArtStation →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <p class="label">Me contacter</p>
+    <p>Vous accompagnez des personnes en difficulté avec l'administratif et vous voulez tester Coup de pouce ? Écrivez-moi, je réponds à chaque message.</p>
+    <p><a href="mailto:hadrienbasch@gmail.com">hadrienbasch@gmail.com</a></p>
+  </section>
+
+  <footer>Hadrien Basch · Page hébergée gratuitement sur GitHub Pages</footer>
+</div>
+</body>
+</html>
