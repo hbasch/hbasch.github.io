@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Au guichet – Coup de pouce</title>
+<meta name="description" content="Des phrases toutes prêtes en 10 langues pour se faire comprendre à la mairie, à la CAF, chez le médecin ou à la pharmacie. Pour les personnes et pour les agents d'accueil. Gratuit, rien n'est envoyé.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F5B9C9'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' font-family='Georgia' font-weight='bold' fill='%231B2130'%3Eg%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../commun/outils.css">
+<style>
+body{--tool:var(--t-guichet)}
+.seal{background:var(--t-guichet)}
+.langs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.langs button{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:10px;min-height:54px;font-weight:700;font-size:1.05rem;cursor:pointer;padding:6px 10px}
+.langs button small{display:block;font-weight:400;font-size:.75rem;color:var(--ink-soft)}
+.langs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.langs button[aria-pressed="true"] small{color:var(--paper);opacity:.8}
+.cats{display:flex;gap:6px;flex-wrap:wrap}
+.cats button{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer;min-height:42px}
+.cats button[aria-pressed="true"]{background:var(--tool);color:#1B2130}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.card{border:2px solid var(--rule);border-radius:12px;background:var(--paper);padding:12px 14px;text-align:start;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;gap:4px;min-height:84px}
+.card:hover{border-color:var(--ink)}
+.card .fo{font-size:1.15rem;font-weight:700;line-height:1.35}
+.card .fr{font-size:.88rem;color:var(--ink-soft)}
+.card.agent .fo{font-size:.88rem;font-weight:400;color:var(--ink-soft)}
+.card.agent .fr{font-size:1.1rem;font-weight:700;color:var(--ink)}
+.yesno{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.yesno .card{align-items:center;justify-content:center;text-align:center}
+.yesno .card .fr{font-size:1.4rem}
+#show{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;padding:20px 20px 24px;gap:16px;overflow:auto}
+#show .who{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+#show .main{font-family:var(--display);font-size:clamp(2rem,8vw,4rem);line-height:1.15;flex:1;display:flex;align-items:center;overflow-wrap:anywhere}
+#show .sub{font-size:1.2rem;color:var(--ink-soft);border-top:2px dashed var(--rule);padding-top:12px}
+#show .row{justify-content:space-between}
+#voix{font-size:.9rem;color:var(--ink-soft)}
+</style>
+</head>
+<body data-outil="guichet">
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../" aria-label="Tous les outils Coup de pouce">
+      <span class="seal" aria-hidden="true"><span>g</span></span>
+      <span><b>Au guichet</b><small>Coup de pouce</small></span>
+    </a>
+    <div class="sizes" role="group" aria-label="Taille du texte">
+      <span aria-hidden="true">Texte</span>
+      <button class="s1" data-fs="16" aria-label="Texte normal">A</button>
+      <button class="s2" data-fs="19" aria-label="Texte grand">A</button>
+      <button class="s3" data-fs="23" aria-label="Texte très grand">A</button>
+    </div>
+  </header>
+  <nav class="suite" id="suite"></nav>
+
+  <div class="hero">
+    <h1>Se comprendre au guichet, <span class="mark">même sans parler français</span>.</h1>
+    <p>Des phrases toutes prêtes pour la mairie, la CAF, le médecin ou la pharmacie. La personne montre sa phrase, l'agent répond en touchant un bouton. Une fois la page ouverte, elle marche même si internet coupe.</p>
+  </div>
+
+  <section class="sheet">
+    <div class="panel">
+      <div class="step">
+        <span class="num">1</span>
+        <h3>Choisis ta langue · Choose your language · اختر لغتك</h3>
+        <div class="langs" id="langs" role="group" aria-label="Langue"></div>
+      </div>
+
+      <div class="step">
+        <span class="num">2</span>
+        <h3 id="tDire">Ce que je veux dire</h3>
+        <p class="hint">Touche une phrase : elle s'affiche en grand, en français, pour la montrer à l'agent. Tu peux aussi la faire lire à voix haute.</p>
+        <div class="cats" id="cats" role="group" aria-label="Thème"></div>
+        <div class="cards" id="cartes"></div>
+      </div>
+
+      <div class="step">
+        <span class="num">3</span>
+        <h3>Pour l'agent : répondre</h3>
+        <p class="hint">Touchez votre réponse : elle s'affiche en grand dans la langue de la personne.</p>
+        <div class="yesno" id="ouinon"></div>
+        <div class="cards" id="reponses"></div>
+      </div>
+
+      <p class="warnline">Les traductions sont faites avec soin, mais une erreur reste possible. Pour un rendez-vous médical ou juridique important, demandez si l'organisme peut faire appel à un interprète professionnel, souvent par téléphone. À l'hôpital, c'est souvent possible. Une erreur de traduction ? <a href="mailto:hadrienbasch@gmail.com?subject=Traduction%20Au%20guichet">Écris-moi</a>.</p>
+      <p class="hint" id="voix"></p>
+    </div>
+  </section>
+
+  <footer id="pied"></footer>
+</div>
+
+<div id="show" hidden role="dialog" aria-modal="true" aria-labelledby="showMain">
+  <p class="who" id="showWho"></p>
+  <p class="main" id="showMain"></p>
+  <p class="sub" id="showSub"></p>
+  <div class="row">
+    <button class="btn" id="bSpeak" type="button">🔊 Écouter</button>
+    <button class="btn line" id="bClose" type="button">Fermer</button>
+  </div>
+</div>
+
+<script src="../commun/outils.js"></script>
+<script>
+const LANGS=[["en","English","anglais","en-GB"],["ar","العربية","arabe","ar-SA"],["es","Español","espagnol","es-ES"],["pt","Português","portugais","pt-PT"],["ro","Română","roumain","ro-RO"],["uk","Українська","ukrainien","uk-UA"],["ru","Русский","russe","ru-RU"],["tr","Türkçe","turc","tr-TR"],["fa","دری / فارسی","dari, persan","fa-IR"],["zh","中文","chinois","zh-CN"]];
+const RTL=["ar","fa"];
+const K=["en","ar","es","pt","ro","uk","ru","tr","fa","zh"];
+const T=(fr,...v)=>({fr,...Object.fromEntries(K.map((k,i)=>[k,v[i]]))});
+const DIRE={
+"Se parler":[
+T("Bonjour, je ne parle pas bien français.","Hello, I don't speak French well.","مرحبًا، أنا لا أتكلم الفرنسية جيدًا.","Hola, no hablo bien francés.","Olá, não falo bem francês.","Bună ziua, nu vorbesc bine franceza.","Добрий день, я погано розмовляю французькою.","Здравствуйте, я плохо говорю по-французски.","Merhaba, Fransızcam iyi değil.","سلام، من فرانسوی را خوب صحبت نمی‌کنم.","您好，我法语说得不好。"),
+T("Pouvez-vous parler lentement, s'il vous plaît ?","Could you speak slowly, please?","هل يمكنك التحدث ببطء من فضلك؟","¿Puede hablar despacio, por favor?","Pode falar devagar, por favor?","Puteți vorbi mai rar, vă rog?","Говоріть, будь ласка, повільніше.","Говорите, пожалуйста, медленнее.","Lütfen yavaş konuşur musunuz?","لطفاً آهسته صحبت کنید.","请您说慢一点。"),
+T("Pouvez-vous l'écrire, s'il vous plaît ?","Could you write it down, please?","هل يمكنك كتابته من فضلك؟","¿Puede escribirlo, por favor?","Pode escrever, por favor?","Puteți să-l scrieți, vă rog?","Напишіть, будь ласка.","Напишите, пожалуйста.","Lütfen yazar mısınız?","لطفاً آن را بنویسید.","请您写下来。"),
+T("J'ai besoin d'un interprète.","I need an interpreter.","أحتاج إلى مترجم.","Necesito un intérprete.","Preciso de um intérprete.","Am nevoie de un interpret.","Мені потрібен перекладач.","Мне нужен переводчик.","Tercümana ihtiyacım var.","من به مترجم نیاز دارم.","我需要翻译。"),
+T("Je ne comprends pas.","I don't understand.","أنا لا أفهم.","No entiendo.","Não entendo.","Nu înțeleg.","Я не розумію.","Я не понимаю.","Anlamıyorum.","متوجه نمی‌شوم.","我不明白。"),
+T("Merci beaucoup.","Thank you very much.","شكرًا جزيلًا.","Muchas gracias.","Muito obrigado / obrigada.","Vă mulțumesc mult.","Щиро дякую.","Большое спасибо.","Çok teşekkür ederim.","خیلی ممنون.","非常感谢。")],
+"Démarches":[
+T("J'ai reçu cette lettre. Pouvez-vous m'expliquer ?","I received this letter. Can you explain it to me?","وصلتني هذه الرسالة. هل يمكنك أن تشرحها لي؟","He recibido esta carta. ¿Me la puede explicar?","Recebi esta carta. Pode explicar-me?","Am primit această scrisoare. Îmi puteți explica?","Мені прийшов цей лист. Поясніть, будь ласка.","Мне пришло это письмо. Объясните, пожалуйста.","Bu mektup bana geldi. Bana açıklayabilir misiniz?","این نامه به دستم رسیده. می‌توانید برایم توضیح دهید؟","我收到了这封信。您能给我解释一下吗？"),
+T("J'ai un rendez-vous.","I have an appointment.","لدي موعد.","Tengo una cita.","Tenho um horário marcado.","Am o programare.","У мене є запис на прийом.","У меня запись на приём.","Randevum var.","من وقت ملاقات دارم.","我有预约。"),
+T("Je voudrais prendre un rendez-vous.","I would like to make an appointment.","أريد أن آخذ موعدًا.","Quisiera pedir una cita.","Gostaria de marcar um horário.","Aș dori să fac o programare.","Я хочу записатися на прийом.","Я хочу записаться на приём.","Randevu almak istiyorum.","می‌خواهم وقت ملاقات بگیرم.","我想预约。"),
+T("J'ai besoin d'aide pour une démarche sur internet.","I need help with an online application.","أحتاج إلى مساعدة في إجراء عبر الإنترنت.","Necesito ayuda con un trámite por internet.","Preciso de ajuda com um pedido pela internet.","Am nevoie de ajutor pentru o procedură online.","Мені потрібна допомога з онлайн-заявою.","Мне нужна помощь с оформлением документов онлайн.","İnternetten bir başvuru için yardıma ihtiyacım var.","برای انجام یک کار اداری اینترنتی کمک لازم دارم.","我需要帮助在网上办理手续。"),
+T("Quels documents dois-je apporter ?","Which documents do I need to bring?","ما هي الوثائق التي يجب أن أحضرها؟","¿Qué documentos tengo que traer?","Que documentos tenho de trazer?","Ce documente trebuie să aduc?","Які документи мені потрібно принести?","Какие документы мне нужно принести?","Hangi belgeleri getirmem gerekiyor?","چه مدارکی باید بیاورم؟","我需要带哪些文件？"),
+T("J'ai perdu mes papiers.","I have lost my documents.","لقد فقدت أوراقي.","He perdido mis documentos.","Perdi os meus documentos.","Mi-am pierdut actele.","У мене загубилися документи.","У меня потерялись документы.","Belgelerimi kaybettim.","مدارکم را گم کرده‌ام.","我的证件丢了。"),
+T("Je n'ai pas de logement.","I have nowhere to live.","ليس لدي مكان للسكن.","No tengo dónde vivir.","Não tenho onde morar.","Nu am unde să locuiesc.","Мені нема де жити.","Мне негде жить.","Kalacak yerim yok.","جایی برای زندگی ندارم.","我没有地方住。")],
+"Santé":[
+T("J'ai mal ici.","It hurts here.","أشعر بألم هنا.","Me duele aquí.","Dói-me aqui.","Mă doare aici.","У мене болить тут.","У меня болит здесь.","Buram ağrıyor.","اینجایم درد می‌کند.","我这里疼。"),
+T("Je suis malade depuis plusieurs jours.","I have been ill for several days.","أنا مريض منذ عدة أيام.","Estoy enfermo desde hace varios días.","Estou doente há vários dias.","Sunt bolnav de câteva zile.","Я хворію вже кілька днів.","Я болею уже несколько дней.","Birkaç gündür hastayım.","چند روز است که مریض هستم.","我病了好几天了。"),
+T("J'ai de la fièvre.","I have a fever.","عندي حمى.","Tengo fiebre.","Tenho febre.","Am febră.","У мене температура.","У меня температура.","Ateşim var.","تب دارم.","我发烧了。"),
+T("Je suis enceinte.","I am pregnant.","أنا حامل.","Estoy embarazada.","Estou grávida.","Sunt însărcinată.","Я вагітна.","Я беременна.","Hamileyim.","باردار هستم.","我怀孕了。"),
+T("Je suis allergique à un médicament.","I am allergic to a medicine.","عندي حساسية من دواء.","Tengo alergia a un medicamento.","Tenho alergia a um medicamento.","Am alergie la un medicament.","У мене алергія на ліки.","У меня аллергия на лекарство.","Bir ilaca alerjim var.","به یک دارو حساسیت دارم.","我对一种药物过敏。"),
+T("J'ai besoin de mes médicaments.","I need my medicine.","أحتاج إلى أدويتي.","Necesito mis medicamentos.","Preciso dos meus medicamentos.","Am nevoie de medicamentele mele.","Мені потрібні мої ліки.","Мне нужны мои лекарства.","İlaçlarıma ihtiyacım var.","به داروهایم نیاز دارم.","我需要我的药。"),
+T("Voici mes papiers d'assurance santé.","Here are my health insurance papers.","هذه أوراق التأمين الصحي الخاصة بي.","Aquí están mis papeles del seguro médico.","Aqui estão os meus documentos do seguro de saúde.","Acestea sunt actele mele de asigurare medicală.","Ось мої документи медичного страхування.","Вот мои документы медицинской страховки.","Bunlar sağlık sigortası belgelerim.","این مدارک بیمهٔ درمانی من است.","这是我的医疗保险证件。"),
+T("Mon enfant est malade.","My child is ill.","طفلي مريض.","Mi hijo está enfermo.","O meu filho está doente.","Copilul meu este bolnav.","Моя дитина хвора.","Мой ребёнок болен.","Çocuğum hasta.","بچه‌ام مریض است.","我的孩子生病了。")],
+"Urgence":[
+T("Appelez une ambulance, s'il vous plaît !","Please call an ambulance!","اتصلوا بالإسعاف من فضلكم!","¡Llame a una ambulancia, por favor!","Chame uma ambulância, por favor!","Chemați o ambulanță, vă rog!","Викличте швидку, будь ласка!","Вызовите скорую, пожалуйста!","Lütfen ambulans çağırın!","لطفاً آمبولانس خبر کنید!","请叫救护车！"),
+T("C'est urgent, j'ai besoin d'aide.","It's urgent, I need help.","الأمر عاجل، أحتاج إلى مساعدة.","Es urgente, necesito ayuda.","É urgente, preciso de ajuda.","E urgent, am nevoie de ajutor.","Це терміново, мені потрібна допомога.","Это срочно, мне нужна помощь.","Acil, yardıma ihtiyacım var.","فوری است، کمک لازم دارم.","情况紧急，我需要帮助。"),
+T("Je suis en danger.","I am in danger.","أنا في خطر.","Estoy en peligro.","Estou em perigo.","Sunt în pericol.","Я в небезпеці.","Я в опасности.","Tehlikedeyim.","من در خطر هستم.","我有危险。")]
+};
+const OUINON=[T("Oui","Yes","نعم","Sí","Sim","Da","Так","Да","Evet","بله","是"),T("Non","No","لا","No","Não","Nu","Ні","Нет","Hayır","نه","不是")];
+const REP=[
+T("Asseyez-vous, on va vous appeler.","Please take a seat, we will call you.","تفضل بالجلوس، سننادي عليك.","Siéntese, por favor, le llamaremos.","Sente-se, por favor, vamos chamá-lo.","Luați loc, vă vom striga.","Сідайте, будь ласка, вас покличуть.","Присаживайтесь, вас вызовут.","Lütfen oturun, sizi çağıracağız.","لطفاً بنشینید، شما را صدا می‌زنیم.","请坐，我们会叫您。"),
+T("Attendez ici, s'il vous plaît.","Please wait here.","انتظر هنا من فضلك.","Espere aquí, por favor.","Espere aqui, por favor.","Așteptați aici, vă rog.","Зачекайте тут, будь ласка.","Подождите здесь, пожалуйста.","Lütfen burada bekleyin.","لطفاً اینجا منتظر بمانید.","请在这里等一下。"),
+T("Montrez-moi vos papiers, s'il vous plaît.","Please show me your documents.","أرني أوراقك من فضلك.","Enséñeme sus documentos, por favor.","Mostre-me os seus documentos, por favor.","Arătați-mi actele, vă rog.","Покажіть, будь ласка, ваші документи.","Покажите, пожалуйста, ваши документы.","Lütfen belgelerinizi gösterin.","لطفاً مدارکتان را نشان دهید.","请出示您的证件。"),
+T("Il manque un document.","A document is missing.","هناك وثيقة ناقصة.","Falta un documento.","Falta um documento.","Lipsește un document.","Бракує одного документа.","Не хватает одного документа.","Bir belge eksik.","یک مدرک کم است.","缺少一份文件。"),
+T("Il faut prendre rendez-vous.","You need to make an appointment.","يجب أن تأخذ موعدًا.","Tiene que pedir cita.","Tem de marcar um horário.","Trebuie să faceți o programare.","Потрібно записатися на прийом.","Нужно записаться на приём.","Randevu almanız gerekiyor.","باید وقت ملاقات بگیرید.","您需要预约。"),
+T("Revenez demain, s'il vous plaît.","Please come back tomorrow.","عد غدًا من فضلك.","Vuelva mañana, por favor.","Volte amanhã, por favor.","Reveniți mâine, vă rog.","Приходьте завтра, будь ласка.","Приходите завтра, пожалуйста.","Lütfen yarın tekrar gelin.","لطفاً فردا دوباره بیایید.","请明天再来。"),
+T("Signez ici, s'il vous plaît.","Please sign here.","وقّع هنا من فضلك.","Firme aquí, por favor.","Assine aqui, por favor.","Semnați aici, vă rog.","Підпишіть тут, будь ласка.","Подпишите здесь, пожалуйста.","Lütfen buraya imza atın.","لطفاً اینجا را امضا کنید.","请在这里签名。"),
+T("C'est gratuit.","It is free of charge.","هذا مجاني.","Es gratis.","É gratuito.","Este gratuit.","Це безкоштовно.","Это бесплатно.","Ücretsizdir.","رایگان است.","这是免费的。"),
+T("Je vais chercher un collègue.","I will get a colleague.","سأنادي زميلًا لي.","Voy a buscar a un compañero.","Vou chamar um colega.","Chem un coleg.","Я покличу колегу.","Я позову коллегу.","Bir meslektaşımı çağıracağım.","یکی از همکارانم را صدا می‌زنم.","我去找一位同事。"),
+T("Ce n'est pas ici. Allez à cette adresse.","It is not here. Go to this address.","ليس هنا. اذهب إلى هذا العنوان.","No es aquí. Vaya a esta dirección.","Não é aqui. Vá a este endereço.","Nu este aici. Mergeți la această adresă.","Це не тут. Ідіть за цією адресою.","Это не здесь. Идите по этому адресу.","Burası değil. Bu adrese gidin.","اینجا نیست. به این آدرس بروید.","不是这里。请去这个地址。"),
+T("Où avez-vous mal ? Montrez-moi.","Where does it hurt? Show me.","أين تشعر بالألم؟ أرني.","¿Dónde le duele? Enséñemelo.","Onde lhe dói? Mostre-me.","Unde vă doare? Arătați-mi.","Де болить? Покажіть.","Где болит? Покажите.","Neresi ağrıyor? Gösterin.","کجایتان درد می‌کند؟ نشان دهید.","哪里疼？指给我看。"),
+T("Depuis combien de jours ? Montrez avec les doigts.","For how many days? Show me with your fingers.","منذ كم يومًا؟ أشر بأصابعك.","¿Desde hace cuántos días? Indíquelo con los dedos.","Há quantos dias? Mostre com os dedos.","De câte zile? Arătați cu degetele.","Скільки днів? Покажіть на пальцях.","Сколько дней? Покажите на пальцах.","Kaç gündür? Parmaklarınızla gösterin.","چند روز است؟ با انگشتانتان نشان دهید.","多少天了？用手指表示。"),
+T("Il faut aller à l'hôpital.","You need to go to the hospital.","يجب أن تذهب إلى المستشفى.","Tiene que ir al hospital.","Tem de ir ao hospital.","Trebuie să mergeți la spital.","Вам потрібно їхати до лікарні.","Вам нужно в больницу.","Hastaneye gitmeniz gerekiyor.","باید به بیمارستان بروید.","您需要去医院。")
+];
+let L=Memo.get("guichet-l","en");if(!K.includes(L))L="en";let cat=Object.keys(DIRE)[0];
+const langInfo=k=>LANGS.find(x=>x[0]===k);
+function attrs(el,k){el.lang=k;el.dir=RTL.includes(k)?"rtl":"ltr";return el}
+function rendLangs(){$("langs").replaceChildren(...LANGS.map(([k,n,fr])=>{const b=h("button",{type:"button","aria-pressed":k===L?"true":"false"},[attrs(h("span",{text:n}),k),h("small",{text:fr})]);b.onclick=()=>{L=k;Memo.set("guichet-l",k);tout()};return b}))}
+function rendCats(){$("cats").replaceChildren(...Object.keys(DIRE).map(c=>{const b=h("button",{type:"button","aria-pressed":c===cat?"true":"false",text:c});b.onclick=()=>{cat=c;rendCats();rendCartes()};return b}))}
+function carte(p,agent){const b=h("button",{type:"button",cls:"card"+(agent?" agent":"")},[attrs(h("span",{cls:"fo",text:p[L]}),L),h("span",{cls:"fr",lang:"fr",text:p.fr})]);
+  b.onclick=()=>montrer(p,agent);return b}
+function rendCartes(){$("cartes").replaceChildren(...DIRE[cat].map(p=>carte(p,false)))}
+function rendRep(){$("ouinon").replaceChildren(...OUINON.map(p=>carte(p,true)));$("reponses").replaceChildren(...REP.map(p=>carte(p,true)))}
+let cible=null,dernierFocus=null;
+function montrer(p,agent){
+  dernierFocus=document.activeElement;
+  const li=langInfo(L);cible=agent?{txt:p[L],lang:li[3]}:{txt:p.fr,lang:"fr-FR"};
+  $("showWho").textContent=agent?"Réponse de l'agent · "+li[1]:"La personne vous dit";
+  const m=$("showMain");m.textContent=agent?p[L]:p.fr;attrs(m,agent?L:"fr");
+  const s=$("showSub");s.textContent=agent?p.fr:p[L];attrs(s,agent?"fr":L);
+  $("bSpeak").textContent=agent?"🔊 Écouter · "+li[1]:"🔊 Écouter en français";
+  $("show").hidden=false;$("bClose").focus();
+}
+$("bSpeak").onclick=()=>{if(!cible)return;const ok=voixPour(cible.lang);if(!ok){$("bSpeak").textContent="Pas de voix pour cette langue sur cet appareil";return}parler(cible.txt,cible.lang)};
+const fermer=()=>{$("show").hidden=true;if("speechSynthesis" in window)speechSynthesis.cancel();if(dernierFocus)dernierFocus.focus()};
+$("bClose").onclick=fermer;document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("show").hidden)fermer()});
+function voixPour(code){if(!("speechSynthesis" in window))return false;const v=speechSynthesis.getVoices();if(!v.length)return true;return v.some(x=>x.lang&&x.lang.toLowerCase().startsWith(code.slice(0,2)))}
+function tout(){rendLangs();rendCats();rendCartes();rendRep();
+  const n=langInfo(L)[2];$("voix").textContent="La lecture à voix haute utilise les voix installées sur l'appareil. Si rien ne se passe en "+n+", c'est que cette voix n'est pas installée : le texte écrit suffit."}
+tout();
+</script>
+</body>
+</html>
