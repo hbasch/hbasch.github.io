@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon budget – Coup de pouce</title>
+<meta name="description" content="Calcule ce qu'il te reste pour vivre, sache quelles dettes payer en premier et prépare une lettre pour payer en plusieurs fois. Gratuit, rien n'est envoyé.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23A9DEC0'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' font-family='Georgia' font-weight='bold' fill='%231B2130'%3Eb%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../commun/outils.css">
+<style>
+body{--tool:var(--t-budget)}
+.seal{background:var(--t-budget)}
+.money{display:grid;grid-template-columns:1fr 150px;gap:8px 12px;align-items:center}
+.money label{font-weight:400}
+.money label small{display:block;color:var(--ink-soft);font-size:.85rem}
+.money input{text-align:right}
+@media (max-width:460px){.money{grid-template-columns:1fr 118px}}
+.tot{display:flex;justify-content:space-between;border-top:2px solid var(--ink);padding-top:8px;font-weight:700}
+.dette{display:grid;grid-template-columns:1.3fr 1.2fr 110px 110px 40px;gap:8px;align-items:end;padding:10px 0;border-bottom:1px solid var(--rule)}
+.dette .x{min-height:46px;border:0;background:none;color:var(--ink-soft);font-size:1.4rem;cursor:pointer}
+@media (max-width:680px){.dette{grid-template-columns:1fr 1fr}.dette .x{justify-self:end;grid-column:2}}
+.dette label{font-size:.8rem;font-weight:700;color:var(--ink-soft)}
+.bilan{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.bilan div{border:2px solid var(--rule);border-radius:10px;padding:12px 14px}
+.bilan b{display:block;font-family:var(--display);font-weight:400;font-size:1.5rem}
+.neg{color:var(--red)}.pos{color:var(--green)}
+.prio{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:p}
+.prio li{counter-increment:p;display:grid;grid-template-columns:34px 1fr;gap:10px;border:2px solid var(--rule);border-radius:10px;padding:12px}
+.prio li::before{content:counter(p);width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:700}
+.prio li.top{border-color:var(--red)}
+.prio h4{margin:0;font-size:1rem}
+.prio p{font-size:.93rem;color:var(--ink-soft)}
+.help{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.help div{border:2px solid var(--ink);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.help h4{margin:0}
+.help p{font-size:.93rem}
+@media print{body.pl .sheet:not(#res),body.pl #res .panel>*:not(#blocLettre),body.pl #blocLettre>*:not(.letter){display:none!important}body.pl .letter{box-shadow:none;border:0;font-size:12pt}body.pl .letter::before{display:none}}
+</style>
+</head>
+<body data-outil="budget" data-stocke="1">
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../" aria-label="Tous les outils Coup de pouce">
+      <span class="seal" aria-hidden="true"><span>b</span></span>
+      <span><b>Mon budget</b><small>Coup de pouce</small></span>
+    </a>
+    <div class="sizes" role="group" aria-label="Taille du texte">
+      <span aria-hidden="true">Texte</span>
+      <button class="s1" data-fs="16" aria-label="Texte normal">A</button>
+      <button class="s2" data-fs="19" aria-label="Texte grand">A</button>
+      <button class="s3" data-fs="23" aria-label="Texte très grand">A</button>
+    </div>
+  </header>
+  <nav class="suite" id="suite"></nav>
+
+  <div class="hero">
+    <h1>Des dettes, des retards ? <span class="mark">Fais le point</span>, sans jugement.</h1>
+    <p>En 5 minutes : ce qu'il te reste vraiment pour vivre, les dettes à payer en premier, et une lettre pour demander à payer en plusieurs fois.</p>
+  </div>
+
+  <section class="sheet">
+    <div class="panel">
+      <div class="promise">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+        <p><b>Tes chiffres restent sur ton appareil.</b> Rien n'est envoyé. Ils sont gardés sur ce téléphone pour la prochaine fois, et tu peux tout effacer en bas de la page.</p>
+      </div>
+
+      <div class="step">
+        <span class="num">1</span>
+        <h3>Ton foyer</h3>
+        <div class="grid2">
+          <div class="field"><label for="nA">Adultes</label><input type="number" id="nA" min="1" max="10" value="1" inputmode="numeric"></div>
+          <div class="field"><label for="nE">Enfants</label><input type="number" id="nE" min="0" max="15" value="0" inputmode="numeric"></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="num">2</span>
+        <h3>Ce qui rentre chaque mois</h3>
+        <p class="hint">Mets des montants par mois, en euros. Laisse vide ce qui ne te concerne pas.</p>
+        <div class="money" id="revenus"></div>
+        <div class="tot"><span>Total des entrées</span><span id="totR">0 €</span></div>
+      </div>
+
+      <div class="step">
+        <span class="num">3</span>
+        <h3>Ce qui sort chaque mois</h3>
+        <div class="money" id="charges"></div>
+        <div class="tot"><span>Total des dépenses fixes</span><span id="totC">0 €</span></div>
+      </div>
+
+      <div class="step">
+        <span class="num">4</span>
+        <h3>Tes dettes et tes retards</h3>
+        <p class="hint">Un loyer en retard, une facture impayée, un crédit, une amende… Mets aussi ce que tu rembourses déjà chaque mois (0 si rien).</p>
+        <div id="dettes"></div>
+        <div class="row"><button class="btn line small" id="addD" type="button">+ Ajouter une dette</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="res" aria-live="polite">
+    <div class="panel">
+      <h2>Ton bilan</h2>
+      <p id="stamp"></p>
+      <div class="bilan">
+        <div><span class="kicker">Il te reste par mois</span><b id="rav">0 €</b></div>
+        <div><span class="kicker">Par personne et par jour</span><b id="ravj">0 €</b></div>
+        <div><span class="kicker">Total de tes dettes</span><b id="totD">0 €</b></div>
+      </div>
+      <p class="hint" id="ravTxt"></p>
+
+      <div id="blocPrio" hidden>
+        <h2 style="margin-bottom:10px">Par quoi commencer</h2>
+        <p class="lede" style="margin-bottom:12px">Toutes les dettes ne se valent pas. Celles du haut peuvent te faire perdre ton logement, ton électricité ou une partie de ton salaire : ce sont elles à régler ou à négocier en premier.</p>
+        <ol class="prio" id="prio"></ol>
+      </div>
+
+      <div id="blocLettre" hidden>
+        <h2 style="margin-bottom:10px">Demander à payer en plusieurs fois</h2>
+        <p class="lede" style="margin-bottom:12px">La plupart des organismes acceptent un échéancier si tu le demandes <b>avant</b> que la situation s'aggrave. Propose un montant que tu peux vraiment tenir chaque mois.</p>
+        <div class="grid2">
+          <div class="field"><label for="lD">Pour quelle dette ?</label><select id="lD"></select></div>
+          <div class="field"><label for="lM">Je peux payer par mois (€)</label><input type="number" id="lM" min="1" inputmode="decimal"></div>
+          <div class="field"><label for="lN">Ton nom et prénom</label><input type="text" id="lN" autocomplete="name"></div>
+          <div class="field"><label for="lRef">Numéro de client ou de dossier</label><input type="text" id="lRef"></div>
+        </div>
+        <p class="hint" id="lDuree"></p>
+        <div class="letter" id="lettre"></div>
+        <div class="row noprint"><button class="btn" id="bCopy" type="button">Copier la lettre</button><button class="btn line" id="bPrint" type="button">Imprimer</button></div>
+      </div>
+
+      <h2>Qui peut t'aider gratuitement</h2>
+      <div class="help">
+        <div><h4>Point conseil budget</h4><p>Des conseillers gratuits t'aident à faire ton budget, à parler à tes créanciers et à monter un dossier si besoin. Trouve le plus proche sur mesquestionsdargent.fr.</p></div>
+        <div><h4>CCAS ou assistante sociale</h4><p>À la mairie ou au département. Ils peuvent demander des aides d'urgence, par exemple le Fonds de solidarité pour le logement (FSL) pour un loyer ou une facture d'énergie impayés.</p></div>
+        <div><h4>Dossier de surendettement</h4><p>Si tu ne peux plus payer tes dettes même en réduisant tout, tu peux déposer un dossier à la Banque de France. C'est gratuit, en ligne ou par courrier, et ça peut arrêter les saisies.</p></div>
+        <div><h4>France Services</h4><p>Un agent t'aide gratuitement avec les démarches en ligne : CAF, impôts, France Travail. Tu peux y aller avec cette page.</p></div>
+      </div>
+      <p class="warnline">Méfie-toi des sociétés qui promettent de « racheter » ou « effacer » tes dettes contre de l'argent. Les aides ci-dessus sont gratuites.</p>
+    </div>
+  </section>
+
+  <footer id="pied"></footer>
+</div>
+<script src="../commun/outils.js"></script>
+<script>
+const REV=[["sal","Salaire"],["caf","Aides de la CAF","APL, RSA, prime d'activité, allocations familiales…"],["chom","Allocation chômage"],["pens","Retraite, pension, AAH, invalidité"],["pal","Pension alimentaire reçue"],["autreR","Autres rentrées"]];
+const CHG=[["loyer","Loyer ou crédit du logement","Ce que tu payes vraiment, une fois l'APL déduite"],["ener","Électricité et gaz"],["eau","Eau"],["assu","Assurance du logement"],["mut","Mutuelle et assurances"],["tel","Téléphone et internet"],["transp","Transports, voiture, essence"],["enf","Cantine, garde, école"],["palv","Pension alimentaire versée"],["imp","Impôts (par mois)"],["autreC","Autres dépenses fixes"]];
+const TYPES={loyer:["Loyer ou charges de logement",1,"Un loyer impayé peut mener à une procédure d'expulsion. Parle au bailleur tout de suite, et demande l'aide du FSL ou de la CAF."],
+ energie:["Électricité ou gaz",2,"Un impayé peut entraîner une coupure ou une baisse de puissance. Appelle le fournisseur pour un échéancier et vérifie si tu as droit au chèque énergie."],
+ eau:["Eau",2,"Demande un échéancier. Le CCAS ou le FSL peuvent aider."],
+ pension:["Pension alimentaire",3,"Ne pas la payer peut avoir des suites en justice. Si tes revenus ont baissé, tu peux demander au juge de revoir le montant."],
+ impots:["Impôts ou amende",4,"Le Trésor public peut prélever directement sur ton salaire ou ton compte. Demande un délai de paiement sur impots.gouv.fr ou au centre des finances publiques."],
+ caf:["Trop-perçu CAF ou France Travail",4,"L'organisme peut le reprendre sur tes aides. Tu peux demander une remise de dette ou un remboursement plus petit chaque mois."],
+ assurance:["Assurance ou mutuelle",5,"Sans paiement, le contrat peut être résilié. Demande à étaler, ou vérifie si tu as droit à la Complémentaire santé solidaire."],
+ telecom:["Téléphone ou internet",6,"Passe à un forfait moins cher. Demande un échéancier pour la dette."],
+ credit:["Crédit à la consommation",7,"À négocier après les dettes du dessus. Demande un report ou des mensualités plus petites."],
+ decouvert:["Découvert bancaire",7,"Prends rendez-vous avec ta banque. Tu peux demander l'offre client fragile, qui limite les frais."],
+ autre:["Autre",6,"Contacte le créancier pour proposer un échéancier."]};
+const S=Memo.get("budget",{v:{},dettes:[],n:{a:1,e:0},l:{}});
+function ligne(box,[k,t,sub]){const id="m_"+k;const inp=h("input",{type:"number",id,min:"0",step:"1",inputmode:"decimal",placeholder:"0"});if(S.v[k])inp.value=S.v[k];inp.oninput=()=>{S.v[k]=inp.value;calc()};
+  box.append(h("label",{for:id},[t,sub?h("small",{text:sub}):null]),inp)}
+REV.forEach(r=>ligne($("revenus"),r));CHG.forEach(r=>ligne($("charges"),r));
+$("nA").value=S.n.a;$("nE").value=S.n.e;$("nA").oninput=$("nE").oninput=()=>{S.n={a:+$("nA").value||1,e:+$("nE").value||0};calc()};
+function dette(d){
+  const row=h("div",{cls:"dette"});const i=S.dettes.indexOf(d);const id="d"+Math.random().toString(36).slice(2,7);
+  const nom=h("input",{type:"text",id:id+"n",placeholder:"Ex. : EDF, bailleur…"});nom.value=d.nom||"";nom.oninput=()=>{d.nom=nom.value;calc()};
+  const typ=h("select",{id:id+"t"},Object.entries(TYPES).map(([k,v])=>h("option",{value:k,text:v[0]})));typ.value=d.type||"loyer";typ.onchange=()=>{d.type=typ.value;calc()};
+  const mt=h("input",{type:"number",id:id+"m",min:"0",inputmode:"decimal",placeholder:"0"});mt.value=d.montant||"";mt.oninput=()=>{d.montant=mt.value;calc()};
+  const ms=h("input",{type:"number",id:id+"s",min:"0",inputmode:"decimal",placeholder:"0"});ms.value=d.mois||"";ms.oninput=()=>{d.mois=ms.value;calc()};
+  const x=h("button",{cls:"x",type:"button","aria-label":"Retirer cette dette",text:"×"});x.onclick=()=>{S.dettes.splice(S.dettes.indexOf(d),1);row.remove();calc()};
+  row.append(h("div",{cls:"field"},[h("label",{for:id+"n",text:"À qui"}),nom]),h("div",{cls:"field"},[h("label",{for:id+"t",text:"Type"}),typ]),
+    h("div",{cls:"field"},[h("label",{for:id+"m",text:"Total dû (€)"}),mt]),h("div",{cls:"field"},[h("label",{for:id+"s",text:"Par mois (€)"}),ms]),x);
+  $("dettes").append(row);
+}
+S.dettes.forEach(dette);
+$("addD").onclick=()=>{const d={nom:"",type:"loyer",montant:"",mois:""};S.dettes.push(d);dette(d);$("dettes").lastChild.querySelector("input").focus();calc()};
+const num=v=>{const n=parseFloat(String(v||"").replace(",","."));return isFinite(n)&&n>0?n:0};
+const eur=n=>(n<0?"− ":"")+Math.abs(Math.round(n)).toLocaleString("fr-FR")+" €";
+function calc(){
+  Memo.set("budget",S);
+  const R=REV.reduce((a,[k])=>a+num(S.v[k]),0),C=CHG.reduce((a,[k])=>a+num(S.v[k]),0);
+  const D=S.dettes.reduce((a,d)=>a+num(d.montant),0),M=S.dettes.reduce((a,d)=>a+num(d.mois),0);
+  $("totR").textContent=eur(R);$("totC").textContent=eur(C);
+  const rav=R-C-M,pers=Math.max(1,(+$("nA").value||1)+(+$("nE").value||0)),j=rav/pers/30;
+  $("rav").textContent=eur(rav);$("rav").className=rav<0?"neg":"pos";$("ravj").textContent=(j<0?"− ":"")+Math.abs(j).toFixed(2).replace(".",",")+" €";$("ravj").className=j<0?"neg":j<5?"":"pos";$("totD").textContent=eur(D);
+  const st=$("stamp");
+  if(!R&&!C){st.innerHTML="";$("ravTxt").textContent="Remplis au moins tes entrées et tes dépenses pour voir ton bilan.";}
+  else if(rav<0){st.innerHTML='<span class="stamp bad">Dans le rouge</span>';$("ravTxt").textContent="Tes dépenses et remboursements dépassent tes entrées de "+eur(-rav)+" par mois. Ce n'est pas tenable seul : contacte vite un Point conseil budget ou le CCAS, et commence par les dettes en haut de la liste.";}
+  else if(j<5){st.innerHTML='<span class="stamp warn">Très serré</span>';$("ravTxt").textContent="Il reste moins de 5 € par personne et par jour pour manger, s'habiller et le reste. Vérifie que tu touches bien toutes tes aides, et fais-toi accompagner.";}
+  else{st.innerHTML='<span class="stamp ok">Ça tient</span>';$("ravTxt").textContent="Ce qui reste sert à la nourriture, aux vêtements et aux imprévus. S'il y a des dettes, une partie peut servir à les rembourser petit à petit.";}
+  /* priorités */
+  const ds=S.dettes.map((d,i)=>({...d,i,t:TYPES[d.type]||TYPES.autre})).filter(d=>num(d.montant)>0).sort((a,b)=>a.t[1]-b.t[1]||num(b.montant)-num(a.montant));
+  $("blocPrio").hidden=$("blocLettre").hidden=!ds.length;
+  $("prio").replaceChildren(...ds.map(d=>h("li",{cls:d.t[1]<=2?"top":""},[h("div",{},[h("h4",{text:(d.nom?d.nom+" : ":"")+d.t[0]+", "+eur(num(d.montant))}),h("p",{text:d.t[2]})])])));
+  const sel=$("lD"),prev=sel.value;sel.replaceChildren(...ds.map((d,i)=>h("option",{value:String(d.i),text:(d.nom||d.t[0])+" ("+eur(num(d.montant))+")"})));
+  const want=S.l.user?S.l.for:(ds[0]?String(ds[0].i):"");if([...sel.options].some(o=>o.value===want))sel.value=want;if(sel.value!==S.l.for)S.l.m=0;
+  lettre(rav);
+}
+function lettre(rav){
+  const d=S.dettes[+$("lD").value];if(!d)return;const tot=num(d.montant);
+  if(!S.l.m||S.l.for!==$("lD").value){const prop=Math.max(10,Math.min(tot,Math.round(Math.max(rav,0)*.15/5)*5||Math.round(tot/12)));$("lM").value=prop;S.l.for=$("lD").value;S.l.m=prop}
+  const m=num($("lM").value)||1,n=Math.ceil(tot/m);
+  $("lDuree").textContent="Avec "+eur(m)+" par mois, la dette de "+eur(tot)+" serait remboursée en "+n+" mois"+(n>36?". C'est long : le créancier peut refuser, mais la demande montre ta bonne foi.":".");
+  const nom=$("lN").value.trim()||"Prénom Nom",ref=$("lRef").value.trim();
+  const debut=new Date();debut.setMonth(debut.getMonth()+1,5);
+  const who=d.nom||"Madame, Monsieur";
+  $("lettre").textContent=nom+"\n\n"+(d.nom?d.nom+"\n":"")+"\nLe "+new Date().toLocaleDateString("fr-FR")+"\n\nObjet : demande d'échéancier"+(ref?" – dossier n° "+ref:"")+"\n\nMadame, Monsieur,\n\nJe vous dois actuellement la somme de "+eur(tot)+". Je traverse des difficultés financières et je ne peux pas régler cette somme en une seule fois.\n\nJe souhaite rembourser ma dette et je vous propose de verser "+eur(m)+" par mois, à partir du "+debut.toLocaleDateString("fr-FR")+", jusqu'au remboursement complet.\n\nCe montant correspond à ce que je peux payer chaque mois après mes dépenses indispensables. Je vous remercie de bien vouloir me confirmer votre accord par écrit, et de suspendre toute procédure de recouvrement pendant l'exécution de cet échéancier.\n\nJe vous prie d'agréer, Madame, Monsieur, mes salutations distinguées.\n\n"+nom;
+  S.l.n=$("lN").value;S.l.ref=$("lRef").value;S.l.m=$("lM").value;Memo.set("budget",S);
+}
+$("lN").value=S.l.n||"";$("lM").value=S.l.m||"";$("lRef").value=S.l.ref||"";
+$("lD").onchange=()=>{S.l.m=0;S.l.user=1;S.l.for=$("lD").value;S.l.m=0;calc()};["lM","lN","lRef"].forEach(id=>$(id).oninput=()=>{if(id==="lM")S.l.m=$("lM").value;calc()});
+$("bCopy").onclick=async()=>{try{await navigator.clipboard.writeText($("lettre").textContent);$("bCopy").textContent="Copiée ✓"}catch(e){const r=document.createRange();r.selectNodeContents($("lettre"));getSelection().removeAllRanges();getSelection().addRange(r);$("bCopy").textContent="Texte sélectionné : copie-le"}setTimeout(()=>$("bCopy").textContent="Copier la lettre",2500)};
+$("bPrint").onclick=()=>{document.body.classList.add("pl");print();setTimeout(()=>document.body.classList.remove("pl"),500)};
+calc();
+</script>
+</body>
+</html>
