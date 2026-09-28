@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fiche d'urgence – Coup de pouce</title>
+<meta name="description" content="Crée ta fiche d'urgence : traitements, allergies, médecin, personnes à prévenir. À imprimer pour le frigo et en carte pour le portefeuille. Gratuit, rien n'est envoyé.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F7B08A'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' font-family='Georgia' font-weight='bold' fill='%231B2130'%3Eu%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../commun/outils.css">
+<style>
+body{--tool:var(--t-urgence)}
+.seal{background:var(--t-urgence)}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+legend{font-weight:700;font-size:1.1rem;padding:0;margin-bottom:4px}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.nums a{display:flex;flex-direction:column;border:2px solid var(--ink);border-radius:10px;padding:10px 12px;text-decoration:none;background:var(--paper)}
+.nums a b{font-family:var(--display);font-weight:400;font-size:1.8rem;line-height:1}
+.nums a span{font-size:.88rem;color:var(--ink-soft)}
+.saved{font-size:.88rem;color:var(--green);font-weight:700;min-height:1.4em}
+/* affichage plein écran */
+#full{position:fixed;inset:0;z-index:50;background:#fff;color:#111;overflow:auto;padding:0 0 24px}
+#full .band{background:#C23A2E;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:0}
+#full .band b{font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.04em}
+#full .band button{background:#fff;color:#111;border:0;border-radius:8px;padding:8px 14px;font-weight:700;min-height:44px;cursor:pointer}
+#full .in{padding:18px;display:flex;flex-direction:column;gap:14px;max-width:760px;margin:0 auto}
+.fi h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:#555;margin:0 0 2px}
+.fi p{font-size:1.25rem;white-space:pre-wrap;color:#111}
+.fi.alrg p{color:#C23A2E;font-weight:700}
+.fi a{color:#111;font-weight:700}
+.nom{font-family:var(--display);font-size:2rem;line-height:1.1;color:#111}
+/* impression */
+#print{display:none}
+@media print{
+  body.pf .wrap{display:none!important}
+  body.pf #print{display:block;color:#000;font-family:var(--body)}
+  @page{size:A4;margin:14mm}
+  #print .fiche{border:3px solid #C23A2E;border-radius:6px;padding:8mm;page-break-inside:avoid}
+  #print .fiche h1{font-family:var(--display);font-weight:400;color:#C23A2E;font-size:20pt;margin:0 0 4mm}
+  #print .grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm 8mm}
+  #print .fi p{font-size:12pt}
+  #print .cut{margin-top:10mm;display:flex;gap:6mm;align-items:flex-start}
+  #print .carte{width:85.6mm;height:54mm;border:1px dashed #000;border-radius:3mm;padding:3mm;font-size:8.5pt;line-height:1.3;overflow:hidden;box-sizing:border-box}
+  #print .carte b{color:#C23A2E}
+  #print .carte .t{font-weight:700;color:#C23A2E;font-size:10pt;margin-bottom:1mm}
+  #print .ciseaux{font-size:9pt;color:#555;margin-top:4mm}
+}
+</style>
+</head>
+<body data-outil="urgence" data-stocke="1">
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../" aria-label="Tous les outils Coup de pouce">
+      <span class="seal" aria-hidden="true"><span>u</span></span>
+      <span><b>Fiche d'urgence</b><small>Coup de pouce</small></span>
+    </a>
+    <div class="sizes" role="group" aria-label="Taille du texte">
+      <span aria-hidden="true">Texte</span>
+      <button class="s1" data-fs="16" aria-label="Texte normal">A</button>
+      <button class="s2" data-fs="19" aria-label="Texte grand">A</button>
+      <button class="s3" data-fs="23" aria-label="Texte très grand">A</button>
+    </div>
+  </header>
+  <nav class="suite" id="suite"></nav>
+
+  <div class="hero">
+    <h1>En cas de malaise, <span class="mark">les secours savent tout de suite</span>.</h1>
+    <p>Tes traitements, tes allergies, ton médecin et les personnes à prévenir, sur une seule fiche. À coller sur le frigo et à glisser dans le portefeuille. Utile pour une personne âgée, malade, ou qui vit seule.</p>
+  </div>
+
+  <section class="sheet">
+    <div class="panel">
+      <div class="promise">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+        <p><b>Ta fiche reste sur cet appareil.</b> Rien n'est envoyé. Elle est gardée ici pour la modifier plus tard, et tu peux l'effacer en bas de la page. Tu peux aussi la remplir pour un parent.</p>
+      </div>
+
+      <form id="f" class="step" autocomplete="off" onsubmit="return false">
+        <fieldset><legend>La personne</legend>
+          <div class="grid2">
+            <div class="field"><label for="nom">Prénom et nom</label><input type="text" id="nom"></div>
+            <div class="field"><label for="naiss">Date de naissance</label><input type="text" id="naiss" placeholder="Ex. : 12/03/1948"></div>
+            <div class="field"><label for="langue">Langue parlée</label><input type="text" id="langue" placeholder="Ex. : français, arabe"></div>
+            <div class="field"><label for="sang">Groupe sanguin</label><select id="sang"><option value="">Je ne sais pas</option><option>O+</option><option>O−</option><option>A+</option><option>A−</option><option>B+</option><option>B−</option><option>AB+</option><option>AB−</option></select></div>
+          </div>
+        </fieldset>
+        <fieldset><legend>La santé</legend>
+          <div class="field"><label for="allerg">Allergies</label><textarea id="allerg" placeholder="Ex. : pénicilline, arachides. Écris « aucune » si tu n'en as pas."></textarea></div>
+          <div class="field"><label for="malad">Maladies et problèmes de santé</label><textarea id="malad" placeholder="Ex. : diabète, asthme, problème cardiaque, épilepsie…"></textarea></div>
+          <div class="field"><label for="trait">Médicaments pris chaque jour</label><textarea id="trait" placeholder="Ex. : Metformine 1000 mg, matin et soir"></textarea></div>
+          <div class="field"><label for="autre">Autres infos utiles</label><textarea id="autre" placeholder="Ex. : pacemaker, appareil auditif, directives anticipées rangées dans le tiroir de l'entrée…"></textarea></div>
+        </fieldset>
+        <fieldset><legend>Le médecin</legend>
+          <div class="grid2">
+            <div class="field"><label for="med">Médecin traitant</label><input type="text" id="med" placeholder="Ex. : Dr Martin"></div>
+            <div class="field"><label for="medtel">Son téléphone</label><input type="tel" id="medtel"></div>
+          </div>
+        </fieldset>
+        <fieldset><legend>Personnes à prévenir</legend>
+          <div class="grid2">
+            <div class="field"><label for="p1">Personne 1 (nom et lien)</label><input type="text" id="p1" placeholder="Ex. : Karim, mon fils"></div>
+            <div class="field"><label for="p1tel">Téléphone</label><input type="tel" id="p1tel"></div>
+            <div class="field"><label for="p2">Personne 2 (nom et lien)</label><input type="text" id="p2"></div>
+            <div class="field"><label for="p2tel">Téléphone</label><input type="tel" id="p2tel"></div>
+          </div>
+        </fieldset>
+        <p class="saved" id="saved" aria-live="polite"></p>
+        <div class="row">
+          <button class="btn" type="button" id="bFull">Afficher en grand</button>
+          <button class="btn line" type="button" id="bPrint">Imprimer la fiche et la carte</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <div class="panel">
+      <h2>Les numéros d'urgence</h2>
+      <div class="nums">
+        <a href="tel:15"><b>15</b><span>SAMU : urgence médicale</span></a>
+        <a href="tel:18"><b>18</b><span>Pompiers : accident, incendie</span></a>
+        <a href="tel:17"><b>17</b><span>Police : danger, violence</span></a>
+        <a href="tel:112"><b>112</b><span>Urgence partout en Europe</span></a>
+        <a href="sms:114"><b>114</b><span>Par SMS, pour les personnes sourdes ou qui ne peuvent pas parler</span></a>
+      </div>
+      <div class="lib">
+        <details><summary>Mettre ces infos sur l'écran verrouillé du téléphone</summary>
+          <div class="inner"><p>Les secours savent regarder l'écran verrouillé d'un téléphone. Remplis la fiche médicale intégrée :</p>
+          <p><b>iPhone :</b> application Santé, puis ta photo en haut à droite, puis « Fiche médicale ». Active « Afficher en cas de verrouillage ».</p>
+          <p><b>Android :</b> Paramètres, puis « Sécurité et urgence » (le nom peut changer selon le téléphone), puis « Informations médicales ».</p></div></details>
+        <details><summary>Où ranger la fiche imprimée</summary>
+          <div class="inner"><p>Sur la porte du frigo : c'est là que les secours regardent en premier chez une personne âgée. Garde la petite carte dans le portefeuille, à côté de la carte Vitale. Mets à jour la fiche à chaque changement de traitement.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <footer id="pied"></footer>
+</div>
+
+<div id="full" hidden role="dialog" aria-modal="true" aria-label="Fiche d'urgence">
+  <div class="band"><b>URGENCE · EMERGENCY</b><button type="button" id="bFullClose">Fermer</button></div>
+  <div class="in" id="fullIn"></div>
+</div>
+<div id="print"></div>
+
+<script src="../commun/outils.js"></script>
+<script>
+const CH=["nom","naiss","langue","sang","allerg","malad","trait","autre","med","medtel","p1","p1tel","p2","p2tel"];
+const D=Memo.get("urgence",{});
+CH.forEach(k=>{const e=$(k);if(D[k])e.value=D[k];e.addEventListener("input",save);e.addEventListener("change",save)});
+let tS=0;function save(){CH.forEach(k=>D[k]=$(k).value.trim());Memo.set("urgence",D);$("saved").textContent="Enregistré sur cet appareil ✓";clearTimeout(tS);tS=setTimeout(()=>$("saved").textContent="",2000)}
+const tel=t=>t?h("a",{href:"tel:"+t.replace(/[^\d+]/g,""),text:t}):null;
+function fi(titre,val,cls,link){if(!val)return null;return h("div",{cls:"fi"+(cls?" "+cls:"")},[h("h3",{text:titre}),link?h("p",{},[link]):h("p",{text:val})])}
+function contenu(){
+  const d={};CH.forEach(k=>d[k]=$(k).value.trim());return d}
+$("bFull").onclick=()=>{const d=contenu();
+  $("fullIn").replaceChildren(...[
+    h("p",{cls:"nom",text:d.nom||"Nom non renseigné"}),
+    d.naiss?h("p",{text:"Né(e) le "+d.naiss}):null,
+    fi("Allergies",d.allerg||"Non renseigné","alrg"),
+    fi("Groupe sanguin",d.sang),
+    fi("Maladies",d.malad),fi("Médicaments",d.trait),fi("À savoir",d.autre),
+    fi("Langue parlée",d.langue),
+    fi("Médecin traitant",[d.med,d.medtel].filter(Boolean).join(" · "),"",d.medtel?h("span",{},[d.med?d.med+" · ":"",tel(d.medtel)]):null),
+    fi("Prévenir",d.p1||d.p1tel,"",h("span",{},[d.p1?d.p1+" · ":"",tel(d.p1tel)])),
+    fi("Prévenir aussi",d.p2||d.p2tel,"",h("span",{},[d.p2?d.p2+" · ":"",tel(d.p2tel)]))
+  ].filter(Boolean));
+  $("full").hidden=false;$("bFullClose").focus()};
+$("bFullClose").onclick=()=>{$("full").hidden=true;$("bFull").focus()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("full").hidden)$("bFullClose").click()});
+$("bPrint").onclick=()=>{const d=contenu();
+  const bloc=(t,v,c)=>v?h("div",{cls:"fi"+(c?" "+c:"")},[h("h3",{text:t}),h("p",{text:v})]):null;
+  const fiche=h("div",{cls:"fiche"},[h("h1",{text:"Fiche d'urgence · Emergency"}),
+    h("div",{cls:"grid"},[bloc("Nom",d.nom),bloc("Date de naissance",d.naiss),bloc("Allergies",d.allerg||"Non renseigné","alrg"),bloc("Groupe sanguin",d.sang),
+      bloc("Maladies",d.malad),bloc("Médicaments",d.trait),bloc("À savoir",d.autre),bloc("Langue parlée",d.langue),
+      bloc("Médecin traitant",[d.med,d.medtel].filter(Boolean).join(" · ")),bloc("Prévenir",[d.p1,d.p1tel].filter(Boolean).join(" · ")),bloc("Prévenir aussi",[d.p2,d.p2tel].filter(Boolean).join(" · "))].filter(Boolean)),
+    h("p",{cls:"ciseaux",text:"Urgences : 15 SAMU · 18 Pompiers · 17 Police · 112 Europe · 114 par SMS"})]);
+  const l=(t,v)=>v?h("div",{},[h("b",{text:t+" : "}),v]):null;
+  const carte=h("div",{cls:"carte"},[h("div",{cls:"t",text:"URGENCE · "+(d.nom||"")}),l("Allergies",d.allerg||"non renseigné"),l("Groupe",d.sang),l("Maladies",d.malad),l("Traitement",d.trait),l("Médecin",[d.med,d.medtel].filter(Boolean).join(" ")),l("Prévenir",[d.p1,d.p1tel].filter(Boolean).join(" "))].filter(Boolean));
+  $("print").replaceChildren(fiche,h("div",{cls:"cut"},[carte,h("p",{cls:"ciseaux",text:"✂ Découpe la carte et garde-la dans ton portefeuille."})]));
+  document.body.classList.add("pf");print();setTimeout(()=>document.body.classList.remove("pf"),500)};
+</script>
+</body>
+</html>
