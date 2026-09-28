@@ -3,114 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hadrien Basch – projets</title>
-<meta name="description" content="Je conçois des outils numériques utiles et des univers en 3D. Projet en cours : Coup de pouce, un outil gratuit pour comprendre ses courriers administratifs.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<title>Hadrien Basch – outils utiles</title>
+<meta name="description" content="Coup de pouce : des outils gratuits, sans pub et sans compte pour se débrouiller avec l'administratif. Courriers, dossiers, budget, guichet, urgence. Par Hadrien Basch.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23FFE14D'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' font-family='Georgia' font-weight='bold' fill='%231B2130'%3Ec%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="commun/outils.css">
 <style>
-:root{--bg:#F6F7F9;--paper:#FFFFFF;--ink:#171B26;--soft:#555E70;--rule:#DCE0E7;--marker:#FFE14D;--accent:#2A5DB0;
-  --display:"Young Serif",Georgia,serif;--body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#10131A;--paper:#181D28;--ink:#EDF0F5;--soft:#A9B1C2;--rule:#2A3142;--marker:#E8CC3F;--accent:#8DB2FF}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);padding:0 16px 64px}
-.wrap{max-width:860px;margin:0 auto}
-a{color:var(--accent);text-underline-offset:3px}
-a:focus-visible{outline:3px solid var(--marker);outline-offset:3px}
-p{margin:0;max-width:62ch}
-h1,h2,h3{margin:0;font-weight:400;font-family:var(--display);text-wrap:balance}
-.mark{background:linear-gradient(transparent 14%,var(--marker) 14%,var(--marker) 86%,transparent 86%);color:#171B26;padding:0 .12em}
-header.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:12px;flex-wrap:wrap}
-header.top b{font-family:var(--display);font-weight:400;font-size:1.15rem}
-header.top nav{display:flex;gap:18px;font-size:.95rem}
-.intro{padding:40px 0 48px;display:flex;flex-direction:column;gap:18px;border-bottom:1px solid var(--rule)}
-.intro h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.08;max-width:18ch}
-.intro p{font-size:1.12rem;color:var(--soft)}
-section{padding:44px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:20px}
-.label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--soft);font-family:var(--body)}
-.feature{background:var(--paper);border:1px solid var(--rule);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:1.1fr 1fr}
-@media (max-width:720px){.feature{grid-template-columns:1fr}}
-.feature .txt{padding:26px;display:flex;flex-direction:column;gap:14px}
-.feature h2{font-size:1.8rem;line-height:1.1}
-.status{display:inline-block;width:fit-content;font-size:.8rem;font-weight:700;padding:4px 10px;border-radius:999px;background:#E4F3EA;color:#1F6B40}
-@media (prefers-color-scheme:dark){.status{background:#15301F;color:#7ED6A2}}
-.feature ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
-.shot{background:#E9EDF2;min-height:260px;display:grid;place-items:center;color:#555E70;font-size:.9rem;text-align:center;padding:20px;border-left:1px solid var(--rule)}
-.shot img{width:100%;height:100%;object-fit:cover;display:block}
-@media (prefers-color-scheme:dark){.shot{background:#1D2330;color:#A9B1C2}}
-.links{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:9px;border:2px solid var(--ink);color:var(--ink);text-decoration:none;font-weight:700;font-size:.95rem}
-.btn.primary{background:var(--ink);color:var(--bg)}
-.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
-.why h3{font-size:1.15rem;margin-bottom:6px}
-.why p{color:var(--soft);font-size:.98rem}
-.other{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px}
-.card h3{font-size:1.2rem}
-.card p{color:var(--soft);font-size:.96rem}
-.contact p{font-size:1.1rem}
-footer{padding-top:28px;color:var(--soft);font-size:.88rem}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.tool{background:var(--paper);border-radius:14px;border-top:8px solid var(--c);box-shadow:0 1px 0 var(--rule),0 18px 40px -26px rgba(20,30,50,.35);padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);position:relative}
+.tool:hover{transform:translateY(-2px)}
+.tool:focus-visible{outline:3px solid var(--marker);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){.tool{transition:transform .15s}}
+.tool h3{font-family:var(--display);font-weight:400;font-size:1.45rem;line-height:1.1}
+.tool p{color:var(--ink-soft);font-size:.96rem}
+.tool .go{margin-top:auto;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.tool .tag{position:absolute;top:14px;right:14px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:999px;background:var(--c);color:#1B2130}
+.tool.main{grid-column:1/-1}
+.tool.main h3{font-size:1.9rem}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.why h3{font-size:1.1rem;margin-bottom:4px}
+.why p{color:var(--ink-soft);font-size:.96rem}
+.sec{padding-block:30px 6px;display:flex;flex-direction:column;gap:16px}
+.sec>h2{font-family:var(--display);font-weight:400;font-size:1.7rem}
+.card3d{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.card3d h3{font-family:var(--display);font-weight:400;font-size:1.3rem}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <b>Hadrien Basch</b>
-    <nav><a href="#coup-de-pouce">Coup de pouce</a><a href="#autres">3D</a><a href="#contact">Contact</a></nav>
+    <a class="brand" href="./" aria-label="Accueil">
+      <span class="seal" aria-hidden="true"><span>c</span></span>
+      <span><b>Coup de pouce</b><small>par Hadrien Basch</small></span>
+    </a>
+    <nav class="row" style="gap:16px;font-size:.95rem"><a href="#outils">Les outils</a><a href="#autres">3D</a><a href="#contact">Contact</a></nav>
   </header>
 
-  <div class="intro">
-    <h1>Je fabrique des outils qui <span class="mark">rendent service</span>.</h1>
-    <p>Je m'appelle Hadrien. Je crée des univers en 3D sous Unreal Engine, et en ce moment je consacre mon temps libre à Coup de pouce, un outil gratuit pour que plus personne ne reste seul devant un courrier administratif.</p>
+  <div class="hero">
+    <h1>Des outils pour que plus personne ne reste <span class="mark">seul devant un papier</span>.</h1>
+    <p>Je m'appelle Hadrien. Je fabrique bénévolement des outils simples pour se débrouiller avec l'administratif : comprendre un courrier, envoyer un dossier, reprendre son budget, se faire comprendre au guichet. Tous gratuits, sans pub, sans compte, et rien de ce que vous y mettez n'est envoyé sur internet.</p>
   </div>
 
-  <section id="coup-de-pouce">
-    <p class="label">Projet en cours</p>
-    <article class="feature">
-      <div class="txt">
-        <span class="status">En test, gratuit et non lucratif</span>
-        <h2>Coup de pouce</h2>
-        <p>Une lettre de la CAF, des impôts ou d'un commissaire de justice fait souvent peur, surtout quand on est loin du numérique ou du français administratif. Coup de pouce l'explique en mots simples.</p>
-        <ul>
-          <li><b>Mon courrier expliqué</b> : gravité, démarches, date limite, montants, réponse type</li>
-          <li><b>Arnaque ou pas ?</b> : vérifier un SMS ou un email suspect</li>
-          <li><b>Écrire une lettre</b> : remise de dette, délai, recours, résiliation</li>
-          <li><b>Majeur demain</b> : la checklist de sortie de l'aide sociale à l'enfance</li>
-        </ul>
-        <div class="links">
-          <a class="btn primary" href="https://hbasch.github.io/coupdepouce/">Essayer le site</a>
-          <a class="btn" href="https://github.com/hbasch/coupdepouce">Voir le code</a>
-        </div>
-      </div>
-      <div class="shot">
-        <!-- Remplace ce bloc par une capture d'écran : <img src="capture-coupdepouce.png" alt="L'outil Mon courrier expliqué sur téléphone"> -->
-        Ajoute ici une capture d'écran du site sur téléphone
-      </div>
-    </article>
+  <section class="sec" id="outils" aria-labelledby="tOutils">
+    <h2 id="tOutils">La boîte à outils</h2>
+    <div class="tools">
+      <a class="tool main" href="coupdepouce/" style="--c:var(--t-courrier)">
+        <h3>Mon courrier expliqué</h3>
+        <p>On prend en photo une lettre de la CAF, des impôts, d'un commissaire de justice ou de la préfecture. L'outil dit si c'est grave, ce qu'il faut faire et avant quelle date, qui peut aider gratuitement, et propose une lettre de réponse. Il vérifie aussi les SMS d'arnaque et contient une checklist pour les jeunes qui sortent de l'ASE.</p>
+        <span class="go">Ouvrir Coup de pouce →</span>
+      </a>
+      <a class="tool" href="dossier/" style="--c:var(--t-dossier)">
+        <span class="tag">Nouveau</span>
+        <h3>Dossier prêt</h3>
+        <p>Les photos de tes papiers deviennent un PDF propre, redressé, léger et bien nommé, accepté par les sites de la CAF, de France Travail ou de la préfecture.</p>
+        <span class="go">Faire mon PDF →</span>
+      </a>
+      <a class="tool" href="budget/" style="--c:var(--t-budget)">
+        <span class="tag">Nouveau</span>
+        <h3>Mon budget</h3>
+        <p>Ce qu'il reste vraiment pour vivre, les dettes à payer en premier, et une lettre pour demander à payer en plusieurs fois.</p>
+        <span class="go">Faire le point →</span>
+      </a>
+      <a class="tool" href="guichet/" style="--c:var(--t-guichet)">
+        <span class="tag">Nouveau</span>
+        <h3>Au guichet</h3>
+        <p>Des phrases toutes prêtes en 10 langues pour la mairie, la CAF ou le médecin. La personne montre sa phrase, l'agent répond d'un geste.</p>
+        <span class="go">Ouvrir les phrases →</span>
+      </a>
+      <a class="tool" href="urgence/" style="--c:var(--t-urgence)">
+        <span class="tag">Nouveau</span>
+        <h3>Fiche d'urgence</h3>
+        <p>Traitements, allergies, médecin et proches à prévenir, sur une fiche pour le frigo et une carte pour le portefeuille.</p>
+        <span class="go">Créer ma fiche →</span>
+      </a>
+    </div>
+  </section>
 
+  <section class="sec" aria-labelledby="tPrincipes">
+    <h2 id="tPrincipes">Les mêmes règles pour tous les outils</h2>
     <div class="why">
-      <div><h3>La vie privée d'abord</h3><p>La photo du courrier est lue directement sur le téléphone et n'est jamais envoyée. L'analyse se fait sur place, sans IA en ligne : rien n'est envoyé ni conservé.</p></div>
-      <div><h3>Pensé pour tout le monde</h3><p>Grande police adaptée aux personnes malvoyantes, gros boutons, lecture à voix haute. Pas de compte, pas de cookies, pas de publicité.</p></div>
-      <div><h3>Construit avec le terrain</h3><p>L'outil ne remplace pas l'accompagnement humain : il oriente vers France Services, les CCAS et les associations. Je cherche des structures pour le tester et l'améliorer.</p></div>
+      <div><h3>Rien n'est envoyé</h3><p>Tout se passe sur le téléphone ou l'ordinateur. Pas de serveur qui reçoit les papiers, pas d'intelligence artificielle en ligne.</p></div>
+      <div><h3>Gratuit, pour de vrai</h3><p>Pas de compte, pas de publicité, pas de cookies, pas de version payante. Les outils marchent sans limite.</p></div>
+      <div><h3>Lisible par tous</h3><p>Grande police pensée pour les personnes malvoyantes, mots simples, gros boutons, lecture à voix haute. Léger, même sur un vieux téléphone.</p></div>
+      <div><h3>Avec le terrain</h3><p>Les outils ne remplacent pas l'accompagnement humain : ils orientent vers France Services, les CCAS et les associations. Vos retours les améliorent.</p></div>
     </div>
   </section>
 
-  <section id="autres">
-    <p class="label">Mes autres travaux</p>
-    <div class="other">
-      <div class="card">
-        <h3>Univers 3D sous Unreal Engine</h3>
-        <p>Mes créations en 3D temps réel réalisées sous Unreal Engine.</p>
-        <a href="https://www.artstation.com/hbasch">Voir mon portfolio ArtStation →</a>
-      </div>
+  <section class="sec" id="autres" aria-labelledby="tAutres">
+    <h2 id="tAutres">Mes autres travaux</h2>
+    <div class="card3d">
+      <h3>Univers 3D sous Unreal Engine</h3>
+      <p class="lede">Mes créations en 3D temps réel.</p>
+      <a href="https://www.artstation.com/hbasch">Voir mon portfolio ArtStation →</a>
     </div>
   </section>
 
-  <section id="contact" class="contact">
-    <p class="label">Me contacter</p>
-    <p>Vous accompagnez des personnes en difficulté avec l'administratif et vous voulez tester Coup de pouce ? Écrivez-moi, je réponds à chaque message.</p>
-    <p><a href="mailto:hadrienbasch@gmail.com">hadrienbasch@gmail.com</a></p>
+  <section class="sec" id="contact" aria-labelledby="tContact">
+    <h2 id="tContact">Me contacter</h2>
+    <p class="lede">Vous accompagnez des personnes en difficulté avec l'administratif ? Vous avez repéré une erreur ou une idée d'outil ? Écrivez-moi, je réponds à chaque message.</p>
+    <p><a class="btn" href="mailto:hadrienbasch@gmail.com">hadrienbasch@gmail.com</a></p>
   </section>
 
-  <footer>Hadrien Basch · Page hébergée gratuitement sur GitHub Pages</footer>
+  <footer>
+    <p class="sig hand">Fait avec soin, bénévolement.</p>
+    <nav><a href="coupdepouce/confidentialite.html">Confidentialité</a><a href="coupdepouce/mentions-legales.html">Mentions légales</a><a href="https://github.com/hbasch">Le code sur GitHub</a></nav>
+  </footer>
 </div>
 </body>
 </html>
