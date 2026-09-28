@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dossier prêt – Coup de pouce</title>
+<meta name="description" content="Transforme les photos de tes papiers en un PDF propre, léger et bien nommé, prêt à envoyer sur le site de la CAF, de France Travail ou de la préfecture. Gratuit, rien n'est envoyé.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%239FD3EE'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' font-family='Georgia' font-weight='bold' fill='%231B2130'%3Ed%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../commun/outils.css">
+<style>
+body{--tool:var(--t-dossier)}
+.seal{background:var(--t-dossier)}
+.addrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:480px){.addrow{grid-template-columns:1fr}}
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.pg{position:relative;border:2px solid var(--rule);border-radius:8px;background:var(--ground);padding:6px;display:flex;flex-direction:column;gap:6px;align-items:center;cursor:pointer}
+.pg[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--tool)}
+.pg img{width:100%;aspect-ratio:1/1.414;object-fit:contain;background:#fff;border-radius:3px}
+.pg b{font-size:.85rem}
+.edit{display:flex;flex-direction:column;gap:12px;border:2px solid var(--ink);border-radius:12px;padding:14px}
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+@media (max-width:620px){.stage{grid-template-columns:1fr}}
+.stage figure{margin:0;display:flex;flex-direction:column;gap:6px}
+.stage figcaption{font-size:.85rem;color:var(--ink-soft);font-weight:700}
+#cvEdit{width:100%;height:auto;touch-action:none;border-radius:6px;background:#222;cursor:crosshair}
+#cvOut{width:100%;height:auto;border-radius:4px;border:1px solid var(--rule);background:#fff}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.result{display:flex;flex-direction:column;gap:12px;border-top:2px dashed var(--rule);padding-top:18px}
+.fname{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;background:var(--ground);padding:8px 10px;border-radius:6px;overflow-wrap:anywhere}
+.busy{color:var(--ink-soft);font-style:italic}
+</style>
+</head>
+<body data-outil="dossier" data-stocke="1">
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../" aria-label="Tous les outils Coup de pouce">
+      <span class="seal" aria-hidden="true"><span>d</span></span>
+      <span><b>Dossier prêt</b><small>Coup de pouce</small></span>
+    </a>
+    <div class="sizes" role="group" aria-label="Taille du texte">
+      <span aria-hidden="true">Texte</span>
+      <button class="s1" data-fs="16" aria-label="Texte normal">A</button>
+      <button class="s2" data-fs="19" aria-label="Texte grand">A</button>
+      <button class="s3" data-fs="23" aria-label="Texte très grand">A</button>
+    </div>
+  </header>
+  <nav class="suite" id="suite"></nav>
+
+  <div class="hero">
+    <h1>Tes papiers en photo, <span class="mark">un PDF propre</span> à envoyer.</h1>
+    <p>Le site de la CAF ou de la préfecture refuse ta photo ? Trop lourde, de travers, illisible ? Ici, tu la transformes en vrai document : redressé, blanc, léger et bien nommé.</p>
+  </div>
+
+  <section class="sheet">
+    <div class="panel">
+      <div class="promise">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+        <p><b>Tes papiers ne quittent pas ton téléphone.</b> Tout est fait sur l'appareil. Rien n'est envoyé, rien n'est gardé : quand tu fermes la page, tout disparaît.</p>
+      </div>
+
+      <div class="step">
+        <span class="num">1</span>
+        <h3>Ajoute les pages de ton document</h3>
+        <p class="hint">Pose la feuille à plat sur une table sombre, avec une bonne lumière, sans flash. Une photo par page.</p>
+        <div class="addrow">
+          <label class="drop"><input type="file" id="inCam" accept="image/*" capture="environment">
+            <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+            <span><b>Prendre une photo</b><span>Avec l'appareil photo</span></span></label>
+          <label class="drop"><input type="file" id="inPick" accept="image/*" multiple>
+            <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg></span>
+            <span><b>Choisir des photos</b><span>Une ou plusieurs pages</span></span></label>
+        </div>
+        <p class="busy" id="busy" hidden>Préparation de la page…</p>
+      </div>
+
+      <div class="step" id="stPages" hidden>
+        <span class="num">2</span>
+        <h3>Vérifie chaque page</h3>
+        <p class="hint">Les coins de la feuille sont trouvés tout seuls. S'ils sont mal placés, fais glisser les 4 ronds jaunes sur les coins de la feuille.</p>
+        <div class="pages" id="pages"></div>
+        <div class="edit" id="edit" hidden>
+          <div class="stage">
+            <figure><figcaption>Ta photo : place les coins</figcaption><canvas id="cvEdit"></canvas></figure>
+            <figure><figcaption>Ce qui sera dans le PDF</figcaption><canvas id="cvOut"></canvas></figure>
+          </div>
+          <div class="field"><span class="kicker">Rendu</span>
+            <div class="seg" id="segFilter" role="group" aria-label="Rendu de la page">
+              <button data-f="doc" aria-pressed="true">Document net</button>
+              <button data-f="gris" aria-pressed="false">Gris</button>
+              <button data-f="couleur" aria-pressed="false">Couleur</button>
+            </div>
+          </div>
+          <div class="row">
+            <button class="btn line small" id="bRot">Tourner ↻</button>
+            <button class="btn line small" id="bAuto">Recadrer tout seul</button>
+            <button class="btn line small" id="bFull">Garder toute la photo</button>
+            <button class="btn line small" id="bLeft" aria-label="Déplacer la page avant">← Avant</button>
+            <button class="btn line small" id="bRight" aria-label="Déplacer la page après">Après →</button>
+            <button class="btn link" id="bDel">Supprimer cette page</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step" id="stMake" hidden>
+        <span class="num">3</span>
+        <h3>Crée ton fichier</h3>
+        <div class="grid2">
+          <div class="field"><label for="fType">C'est quel papier ?</label>
+            <select id="fType">
+              <option value="Piece-identite">Pièce d'identité</option><option value="Justificatif-domicile">Justificatif de domicile</option><option value="Avis-imposition">Avis d'impôt</option><option value="Bulletin-salaire">Bulletin de salaire</option><option value="RIB">RIB</option><option value="Attestation-CAF">Attestation CAF</option><option value="Titre-sejour">Titre de séjour</option><option value="Passeport">Passeport</option><option value="Bail">Bail</option><option value="Quittance-loyer">Quittance de loyer</option><option value="Attestation-hebergement">Attestation d'hébergement</option><option value="Contrat-travail">Contrat de travail</option><option value="Attestation-employeur">Attestation employeur</option><option value="Certificat-medical">Certificat médical</option><option value="Document">Autre papier</option>
+            </select></div>
+          <div class="field"><label for="fNom">Ton nom</label><input type="text" id="fNom" autocomplete="family-name" placeholder="Ex. : Diallo"></div>
+          <div class="field"><label for="fPrenom">Ton prénom</label><input type="text" id="fPrenom" autocomplete="given-name" placeholder="Ex. : Aminata"></div>
+          <div class="field"><label for="fMax">Taille maximum demandée</label>
+            <select id="fMax"><option value="1">1 Mo</option><option value="2" selected>2 Mo (le plus courant)</option><option value="5">5 Mo</option><option value="10">10 Mo</option></select></div>
+        </div>
+        <p class="hint">Le site où tu déposes le fichier indique souvent la taille maximum, à côté du bouton pour ajouter un fichier. Dans le doute, garde 2 Mo.</p>
+        <div class="row"><button class="btn" id="bMake">Créer le PDF</button></div>
+        <div class="result" id="result" hidden aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <div class="panel">
+      <h2>Quels papiers pour ma démarche ?</h2>
+      <p class="lede">Les pièces le plus souvent demandées. Coche ce que tu as déjà. La liste exacte dépend de ta situation : vérifie toujours sur le site ou le courrier de l'organisme.</p>
+      <div class="lib" id="lists"></div>
+      <p class="warnline">Un <b>justificatif de domicile</b>, c'est par exemple une facture d'électricité, de gaz, d'eau, de box internet, une quittance de loyer ou une attestation d'assurance habitation, souvent de moins de 3 mois. Si tu es hébergé, il faut en général une attestation d'hébergement signée, la pièce d'identité de la personne qui t'héberge et son propre justificatif de domicile.</p>
+    </div>
+  </section>
+
+  <footer id="pied"></footer>
+</div>
+<script src="../commun/outils.js"></script>
+<script>
+/* ---------- listes de pièces ---------- */
+const LISTES=[
+ ["Aides de la CAF (APL, RSA, prime d'activité)",["Pièce d'identité ou titre de séjour","RIB à ton nom","Bail ou quittance de loyer (pour l'aide au logement)","Justificatifs de ressources : bulletins de salaire, attestations France Travail…","Numéro de sécurité sociale"]],
+ ["Inscription à France Travail",["Pièce d'identité ou titre de séjour","Carte Vitale ou numéro de sécurité sociale","RIB à ton nom","Attestation employeur de ta dernière fin de contrat","CV, même court"]],
+ ["Complémentaire santé solidaire (CSS)",["Pièce d'identité ou titre de séjour","Justificatifs de toutes les ressources du foyer sur les 12 derniers mois","Dernier avis d'impôt","RIB (si une participation est à payer)"]],
+ ["Demande de logement social",["Pièce d'identité ou titre de séjour de chaque adulte du foyer","Tes 2 derniers avis d'impôt","Justificatifs de ressources : bulletins de salaire, attestation CAF…","Justificatif de ta situation actuelle : bail, attestation d'hébergement…","Livret de famille ou acte de naissance des enfants, si besoin"]],
+ ["Renouvellement de titre de séjour",["Passeport et titre de séjour actuel","Justificatif de domicile récent","Photos d'identité aux normes","Justificatifs liés à ton motif de séjour : travail, études, famille…","La liste exacte dépend de ton titre : vérifie sur le site de l'ANEF (administration-etrangers-en-france.interieur.gouv.fr)"]],
+ ["Dossier de surendettement (Banque de France)",["Pièce d'identité","Justificatifs de ressources des derniers mois","Relevés de tous tes comptes des 3 derniers mois","Contrats de crédit, courriers de relance, factures impayées","Bail et justificatifs de charges (loyer, énergie, assurance…)"]]
+];
+const coche=Memo.get("dossier-coche",{});
+LISTES.forEach(([t,items],i)=>{
+  const inner=h("div",{cls:"inner"},items.map((it,j)=>{const id="c"+i+"_"+j;const inp=h("input",{type:"checkbox",id});inp.checked=!!coche[id];inp.onchange=()=>{coche[id]=inp.checked;Memo.set("dossier-coche",coche)};return h("div",{cls:"item"},[inp,h("label",{for:id,text:it})])}));
+  $("lists").append(h("details",{},[h("summary",{text:t}),inner]));
+});
+if(Object.keys(coche).length)document.body.dataset.stocke="1";
+
+/* ---------- pages ---------- */
+const pages=[];let cur=-1;
+const MAXSRC=1600;
+async function charger(file){
+  let bmp;
+  try{bmp=await createImageBitmap(file,{imageOrientation:"from-image"})}
+  catch(e){bmp=await new Promise((ok,ko)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=ko;im.src=URL.createObjectURL(file)})}
+  const w0=bmp.width,h0=bmp.height,s=Math.min(1,MAXSRC/Math.max(w0,h0));
+  const c=document.createElement("canvas");c.width=Math.round(w0*s);c.height=Math.round(h0*s);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  if(bmp.close)bmp.close();
+  const p={src:c,corners:detecter(c),rot:0,filter:"doc",thumb:""};
+  p.thumb=vignette(p);
+  return p;
+}
+function gris(d){const n=d.length/4,g=new Uint8ClampedArray(n);for(let i=0,j=0;j<n;i+=4,j++)g[j]=(d[i]*77+d[i+1]*150+d[i+2]*29)>>8;return g}
+/* trouve la feuille : zone claire la plus grande, puis ses 4 coins */
+function detecter(src){
+  const W=240,s=W/Math.max(src.width,src.height),w=Math.max(8,Math.round(src.width*s)),hh=Math.max(8,Math.round(src.height*s));
+  const c=document.createElement("canvas");c.width=w;c.height=hh;const x=c.getContext("2d",{willReadFrequently:true});
+  x.filter="blur(1px)";x.drawImage(src,0,0,w,hh);const g=gris(x.getImageData(0,0,w,hh).data);
+  const hist=new Array(256).fill(0);g.forEach(v=>hist[v]++);
+  let sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];let sB=0,wB=0,best=0,th=128;const N=g.length;
+  for(let t=0;t<256;t++){wB+=hist[t];if(!wB)continue;const wF=N-wB;if(!wF)break;sB+=t*hist[t];const mB=sB/wB,mF=(sum-sB)/wF,v=wB*wF*(mB-mF)**2;if(v>best){best=v;th=t}}
+  const lab=new Int32Array(N);let bestLab=0,bestSize=0,L=0;const st=new Int32Array(N);
+  for(let i=0;i<N;i++){if(g[i]<=th||lab[i])continue;L++;let sp=0,size=0;st[sp++]=i;lab[i]=L;
+    while(sp){const k=st[--sp];size++;const px=k%w,py=(k/w)|0;
+      if(px>0&&!lab[k-1]&&g[k-1]>th){lab[k-1]=L;st[sp++]=k-1}
+      if(px<w-1&&!lab[k+1]&&g[k+1]>th){lab[k+1]=L;st[sp++]=k+1}
+      if(py>0&&!lab[k-w]&&g[k-w]>th){lab[k-w]=L;st[sp++]=k-w}
+      if(py<hh-1&&!lab[k+w]&&g[k+w]>th){lab[k+w]=L;st[sp++]=k+w}}
+    if(size>bestSize){bestSize=size;bestLab=L}}
+  const plein=pleinCadre(src);
+  if(!bestLab||bestSize<N*.15||bestSize>N*.97)return plein;
+  let tl=[0,0,1e9],tr=[0,0,-1e9],br=[0,0,-1e9],bl=[0,0,1e9];
+  for(let i=0;i<N;i++){if(lab[i]!==bestLab)continue;const px=i%w,py=(i/w)|0,a=px+py,b=px-py;
+    if(a<tl[2])tl=[px,py,a];if(a>br[2])br=[px,py,a];if(b>tr[2])tr=[px,py,b];if(b<bl[2])bl=[px,py,b]}
+  const k=1/s;const pts=[tl,tr,br,bl].map(p=>[p[0]*k,p[1]*k]);
+  const area=Math.abs(pts.reduce((a,p,i)=>{const q=pts[(i+1)%4];return a+p[0]*q[1]-q[0]*p[1]},0))/2;
+  if(area<src.width*src.height*.12)return plein;
+  return pts;
+}
+function pleinCadre(src){return [[0,0],[src.width,0],[src.width,src.height],[0,src.height]]}
+/* transformation perspective : résout l'homographie destination -> source */
+function homographie(dst,srcPts){
+  const A=[],B=[];
+  for(let i=0;i<4;i++){const[x,y]=dst[i],[u,v]=srcPts[i];
+    A.push([x,y,1,0,0,0,-u*x,-u*y]);B.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);B.push(v)}
+  const n=8;for(let c=0;c<n;c++){let p=c;for(let r=c+1;r<n;r++)if(Math.abs(A[r][c])>Math.abs(A[p][c]))p=r;[A[c],A[p]]=[A[p],A[c]];[B[c],B[p]]=[B[p],B[c]];
+    for(let r=0;r<n;r++){if(r===c)continue;const f=A[r][c]/A[c][c];for(let k=c;k<n;k++)A[r][k]-=f*A[c][k];B[r]-=f*B[c]}}
+  return B.map((b,i)=>b/A[i][i]).concat(1);
+}
+const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+/* fabrique la page finale (canvas) à partir de la photo */
+function rendre(p,maxLong=1754){
+  const q=p.corners;let W=Math.max(dist(q[0],q[1]),dist(q[3],q[2])),H=Math.max(dist(q[0],q[3]),dist(q[1],q[2]));
+  const s=Math.min(maxLong/Math.max(W,H),2.2);W=Math.max(10,Math.round(W*s));H=Math.max(10,Math.round(H*s));
+  const Hm=homographie([[0,0],[W,0],[W,H],[0,H]],q);
+  const S=p.src.getContext("2d",{willReadFrequently:true}).getImageData(0,0,p.src.width,p.src.height),sd=S.data,sw=S.width,sh=S.height;
+  const out=document.createElement("canvas");out.width=W;out.height=H;const ox=out.getContext("2d");const O=ox.createImageData(W,H),od=O.data;
+  for(let y=0;y<H;y++){for(let x=0;x<W;x++){
+    const z=Hm[6]*x+Hm[7]*y+1,u=(Hm[0]*x+Hm[1]*y+Hm[2])/z,v=(Hm[3]*x+Hm[4]*y+Hm[5])/z;
+    const o=(y*W+x)*4;
+    if(u<0||v<0||u>=sw-1||v>=sh-1){od[o]=od[o+1]=od[o+2]=255;od[o+3]=255;continue}
+    const x0=u|0,y0=v|0,fx=u-x0,fy=v-y0,i=(y0*sw+x0)*4,j=i+sw*4;
+    for(let c=0;c<3;c++){const a=sd[i+c]+(sd[i+4+c]-sd[i+c])*fx,b=sd[j+c]+(sd[j+4+c]-sd[j+c])*fx;od[o+c]=a+(b-a)*fy}
+    od[o+3]=255}}
+  filtrer(O,W,H,p.filter);ox.putImageData(O,0,0);
+  if(!p.rot)return out;
+  const r=document.createElement("canvas");const t=p.rot%180!==0;r.width=t?H:W;r.height=t?W:H;const rx=r.getContext("2d");
+  rx.translate(r.width/2,r.height/2);rx.rotate(p.rot*Math.PI/180);rx.drawImage(out,-W/2,-H/2);return r;
+}
+/* rendus : document net (fond blanc, texte noir), gris, couleur */
+function filtrer(img,W,H,f){
+  const d=img.data;
+  if(f==="couleur"){niveaux(d,false);return}
+  const g=gris(d);
+  if(f==="doc"){
+    /* estimation du fond (papier) à grande échelle, puis division : l'ombre disparaît */
+    const k=16,bw=Math.ceil(W/k),bh=Math.ceil(H/k),bg=new Float32Array(bw*bh);
+    for(let by=0;by<bh;by++)for(let bx=0;bx<bw;bx++){let m=0;const vals=[];
+      for(let y=by*k;y<Math.min(H,(by+1)*k);y+=2)for(let x=bx*k;x<Math.min(W,(bx+1)*k);x+=2)vals.push(g[y*W+x]);
+      vals.sort((a,b)=>a-b);m=vals[Math.floor(vals.length*.9)]||255;bg[by*bw+bx]=m}
+    const bg2=new Float32Array(bw*bh);
+    for(let by=0;by<bh;by++)for(let bx=0;bx<bw;bx++){let s=0,n=0;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const X=bx+dx,Y=by+dy;if(X<0||Y<0||X>=bw||Y>=bh)continue;s+=bg[Y*bw+X];n++}bg2[by*bw+bx]=s/n}
+    for(let y=0;y<H;y++){const fy=Math.min(bh-1.001,Math.max(0,y/k-.5)),y0=fy|0,ty=fy-y0;
+      for(let x=0;x<W;x++){const fx=Math.min(bw-1.001,Math.max(0,x/k-.5)),x0=fx|0,tx=fx-x0,i0=y0*bw+x0;
+        const b=(bg2[i0]*(1-tx)+bg2[i0+1]*tx)*(1-ty)+(bg2[i0+bw]*(1-tx)+bg2[i0+bw+1]*tx)*ty;
+        let v=g[y*W+x]/Math.max(30,b)*255;v=(v-60)*255/(235-60);v=v<0?0:v>255?255:v;v=255*Math.pow(v/255,1.35);
+        const o=(y*W+x)*4;d[o]=d[o+1]=d[o+2]=v}}
+    return}
+  for(let i=0,j=0;j<g.length;i+=4,j++)d[i]=d[i+1]=d[i+2]=g[j];niveaux(d,true);
+}
+function niveaux(d,mono){const hist=new Uint32Array(256);for(let i=0;i<d.length;i+=4)hist[(d[i]*77+d[i+1]*150+d[i+2]*29)>>8]++;
+  const n=d.length/4;let lo=0,hi=255,a=0;for(;lo<255&&(a+=hist[lo])<n*.01;lo++);a=0;for(;hi>0&&(a+=hist[hi])<n*.01;hi--);
+  const k=255/Math.max(1,hi-lo);for(let i=0;i<d.length;i+=4)for(let c=0;c<3;c++){let v=(d[i+c]-lo)*k;d[i+c]=v<0?0:v>255?255:v}}
+function vignette(p){const r=rendre(p,300);return r.toDataURL("image/jpeg",.7)}
+
+/* ---------- affichage ---------- */
+function liste(){
+  const box=$("pages");box.replaceChildren();
+  pages.forEach((p,i)=>{const d=h("button",{cls:"pg",type:"button","aria-current":i===cur?"true":"false","aria-label":"Page "+(i+1)+", modifier"},[h("img",{src:p.thumb,alt:""}),h("b",{text:"Page "+(i+1)})]);d.onclick=()=>choisir(i);box.append(d)});
+  $("stPages").hidden=$("stMake").hidden=!pages.length;$("edit").hidden=cur<0;
+}
+function choisir(i){cur=i;liste();dessinerEdit();apercu();
+  document.querySelectorAll("#segFilter button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===pages[i].filter))}
+const ed=$("cvEdit");let drag=-1;
+function dessinerEdit(){
+  const p=pages[cur];if(!p)return;ed.width=p.src.width;ed.height=p.src.height;const x=ed.getContext("2d");
+  x.drawImage(p.src,0,0);const q=p.corners;const r=Math.max(p.src.width,p.src.height)/40;
+  x.fillStyle="rgba(0,0,0,.45)";x.beginPath();x.rect(0,0,ed.width,ed.height);x.moveTo(q[0][0],q[0][1]);for(let i=3;i>=0;i--)x.lineTo(q[i][0],q[i][1]);x.closePath();x.fill("evenodd");
+  x.strokeStyle="#FFE14D";x.lineWidth=r/3;x.beginPath();q.forEach((pt,i)=>i?x.lineTo(pt[0],pt[1]):x.moveTo(pt[0],pt[1]));x.closePath();x.stroke();
+  q.forEach(pt=>{x.beginPath();x.arc(pt[0],pt[1],r,0,7);x.fillStyle="#FFE14D";x.fill();x.lineWidth=r/4;x.strokeStyle="#1B2130";x.stroke()});
+}
+let tAp=0;function apercu(){clearTimeout(tAp);tAp=setTimeout(()=>{const p=pages[cur];if(!p)return;const r=rendre(p,900);const o=$("cvOut");o.width=r.width;o.height=r.height;o.getContext("2d").drawImage(r,0,0)},30)}
+function pos(e){const b=ed.getBoundingClientRect();return[(e.clientX-b.left)*ed.width/b.width,(e.clientY-b.top)*ed.height/b.height]}
+ed.addEventListener("pointerdown",e=>{const p=pages[cur];if(!p)return;const m=pos(e);let best=-1,bd=1e9;p.corners.forEach((q,i)=>{const d=dist(q,m);if(d<bd){bd=d;best=i}});
+  if(bd<Math.max(ed.width,ed.height)/8){drag=best;ed.setPointerCapture(e.pointerId);e.preventDefault()}});
+ed.addEventListener("pointermove",e=>{if(drag<0)return;const p=pages[cur],m=pos(e);p.corners[drag]=[Math.max(0,Math.min(ed.width,m[0])),Math.max(0,Math.min(ed.height,m[1]))];dessinerEdit()});
+const fin=()=>{if(drag<0)return;drag=-1;maj()};ed.addEventListener("pointerup",fin);ed.addEventListener("pointercancel",fin);
+function maj(){const p=pages[cur];p.thumb=vignette(p);apercu();liste();$("result").hidden=true}
+document.querySelectorAll("#segFilter button").forEach(b=>b.onclick=()=>{pages[cur].filter=b.dataset.f;document.querySelectorAll("#segFilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));maj()});
+$("bRot").onclick=()=>{pages[cur].rot=(pages[cur].rot+90)%360;maj()};
+$("bAuto").onclick=()=>{pages[cur].corners=detecter(pages[cur].src);dessinerEdit();maj()};
+$("bFull").onclick=()=>{pages[cur].corners=pleinCadre(pages[cur].src);dessinerEdit();maj()};
+$("bDel").onclick=()=>{pages.splice(cur,1);cur=Math.min(cur,pages.length-1);if(cur>=0)choisir(cur);else liste();$("result").hidden=true};
+const bouger=d=>{const j=cur+d;if(j<0||j>=pages.length)return;[pages[cur],pages[j]]=[pages[j],pages[cur]];cur=j;liste();$("result").hidden=true};
+$("bLeft").onclick=()=>bouger(-1);$("bRight").onclick=()=>bouger(1);
+
+async function ajouter(files){
+  $("busy").hidden=false;
+  delete $("busy").dataset.err;for(const f of files){try{$("busy").textContent="Préparation de la page "+(pages.length+1)+"…";await new Promise(r=>setTimeout(r,20));pages.push(await charger(f))}catch(e){alertePage()}}
+  if(pages.length){if(!$("busy").dataset.err)$("busy").hidden=true;choisir(pages.length-1)}else liste();$("result").hidden=true;
+}
+function alertePage(){const b=$("busy");b.textContent="Une photo n'a pas pu être ouverte. Essaie de la reprendre.";b.dataset.err="1"}
+$("inCam").onchange=e=>{ajouter([...e.target.files]);e.target.value=""};
+$("inPick").onchange=e=>{ajouter([...e.target.files]);e.target.value=""};
+
+/* ---------- PDF (écrit à la main, sans bibliothèque) ---------- */
+function pdfDepuisJpeg(imgs){
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const put=x=>{const b=typeof x==="string"?enc.encode(x):x;parts.push(b);len+=b.length};
+  const obj=(n,body)=>{offs[n]=len;put(n+" 0 obj\n");body();put("\nendobj\n")};
+  put("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
+  const n=imgs.length,kids=[];for(let i=0;i<n;i++)kids.push((3+i*3)+" 0 R");
+  obj(1,()=>put("<< /Type /Catalog /Pages 2 0 R >>"));
+  obj(2,()=>put("<< /Type /Pages /Count "+n+" /Kids ["+kids.join(" ")+"] >>"));
+  imgs.forEach((im,i)=>{const pw=595.28,ph=+(pw*im.h/im.w).toFixed(2),o=3+i*3;
+    obj(o,()=>put("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+pw+" "+ph+"] /Resources << /XObject << /Im"+i+" "+(o+2)+" 0 R >> >> /Contents "+(o+1)+" 0 R >>"));
+    const cs="q "+pw+" 0 0 "+ph+" 0 0 cm /Im"+i+" Do Q";
+    obj(o+1,()=>put("<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream"));
+    obj(o+2,()=>{put("<< /Type /XObject /Subtype /Image /Width "+im.w+" /Height "+im.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+im.bytes.length+" >>\nstream\n");put(im.bytes);put("\nendstream")})});
+  const total=3+n*3,x=len;let xr="xref\n0 "+total+"\n0000000000 65535 f \n";for(let i=1;i<total;i++)xr+=String(offs[i]).padStart(10,"0")+" 00000 n \n";
+  put(xr+"trailer\n<< /Size "+total+" /Root 1 0 R >>\nstartxref\n"+x+"\n%%EOF\n");
+  return new Blob(parts,{type:"application/pdf"});
+}
+const toJpeg=(c,q)=>new Promise(r=>c.toBlob(b=>b.arrayBuffer().then(a=>r(new Uint8Array(a))),"image/jpeg",q));
+function redim(c,s){if(s>=1)return c;const r=document.createElement("canvas");r.width=Math.round(c.width*s);r.height=Math.round(c.height*s);const x=r.getContext("2d");x.imageSmoothingQuality="high";x.drawImage(c,0,0,r.width,r.height);return r}
+function sansAccent(s){return s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9-]+/g,"-").replace(/^-+|-+$/g,"")}
+function nomFichier(){const now=new Date(),m=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+  const nom=sansAccent($("fNom").value.trim()).toUpperCase(),pre=sansAccent($("fPrenom").value.trim());
+  return [nom,pre,$("fType").value,m].filter(Boolean).join("_")+".pdf"}
+const mo=b=>b<1e6?Math.max(1,Math.round(b/1024))+" Ko":(b/1048576).toFixed(1).replace(".",",")+" Mo";
+let dernier=null;
+$("bMake").onclick=async()=>{
+  if(!pages.length)return;const btn=$("bMake");btn.disabled=true;btn.textContent="Création…";const res=$("result");res.hidden=false;res.replaceChildren(h("p",{cls:"busy",text:"Création du PDF…"}));
+  await new Promise(r=>setTimeout(r,30));
+  const limite=+$("fMax").value*1e6*.97;const pleins=pages.map(p=>rendre(p,1754));
+  const essais=[[1,.82],[1,.7],[.85,.65],[.72,.6],[.6,.55],[.5,.5],[.42,.45],[.35,.4]];let blob=null,ok=false,used=essais[0];
+  for(const [s,q] of essais){const imgs=[];for(const c of pleins){const r=redim(c,s);imgs.push({w:r.width,h:r.height,bytes:await toJpeg(r,q)})}
+    blob=pdfDepuisJpeg(imgs);used=[s,q];if(blob.size<=limite){ok=true;break}}
+  const nom=nomFichier();dernier={blob,nom};
+  const url=URL.createObjectURL(blob);
+  const kids=[h("p",{cls:ok?"okbox":"alert",text:ok?"Ton PDF est prêt : "+pages.length+" page"+(pages.length>1?"s":"")+", "+mo(blob.size)+".":"Le fichier fait encore "+mo(blob.size)+". Essaie avec moins de pages par fichier, ou choisis une taille maximum plus grande."}),
+    h("div",{cls:"field"},[h("span",{cls:"kicker",text:"Nom du fichier"}),h("p",{cls:"fname",text:nom})]),
+    h("div",{cls:"row"},[h("a",{cls:"btn",href:url,download:nom,id:"bDl",text:"Télécharger le PDF"}),
+      (navigator.canShare&&navigator.canShare({files:[new File([blob],nom,{type:"application/pdf"})]}))?h("button",{cls:"btn line",type:"button",id:"bShare",text:"Envoyer…",onclick:()=>navigator.share({files:[new File([blob],nom,{type:"application/pdf"})],title:nom}).catch(()=>{})}):null,
+      h("a",{cls:"btn line",href:url,target:"_blank",rel:"noopener",text:"Voir le PDF"})]),
+    used[0]<1?h("p",{cls:"hint",text:"Pour tenir dans la taille demandée, les pages ont été un peu allégées. Vérifie que tout reste lisible avant d'envoyer."}):null,
+    h("p",{cls:"warnline",text:"Conseil : fais un fichier par papier (un pour la pièce d'identité, un pour le justificatif de domicile…). Les sites le demandent presque toujours. Pour le papier suivant, supprime les pages et recommence."})];
+  res.replaceChildren(...kids.filter(Boolean));btn.disabled=false;btn.textContent="Créer le PDF";
+};
+["fNom","fPrenom","fType"].forEach(id=>$(id).addEventListener("input",()=>{if(!$("result").hidden&&dernier){const n=nomFichier();dernier.nom=n;const f=document.querySelector(".fname");if(f)f.textContent=n;const a=$("bDl");if(a)a.download=n}}));
+</script>
+</body>
+</html>
