@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ma commune en clair</title>
+<meta name="description" content="Les décisions du conseil municipal, expliquées simplement, avec le lien vers chaque document officiel.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5C6E'/%3E%3Cpath d='M7 25h18M9 25V14l7-5 7 5v11M14 25v-5h4v5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="barre"><div class="w">
+  <a class="logo" href="../" style="color:#fff"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/></svg>Ma commune en clair</a>
+  <a id="lien-pv" href="#">Les documents officiels de la mairie</a>
+</div></div>
+
+<header class="w">
+  <p class="lieu" id="lieu"></p>
+  <h1>Ce que le conseil municipal a décidé, sans jargon.</h1>
+  <p class="chapeau">Les décisions du conseil, réécrites en langage simple. Chaque point renvoie à sa source. Les mots soulignés en pointillé s'expliquent au survol.</p>
+  <div class="actions">
+    <a class="btn" id="mail-alerte" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Être prévenu après chaque conseil</a>
+    <button class="btn clair" id="imprimer" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>Imprimer pour l'affichage</button>
+    <a class="btn clair" id="cafe" href="#" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg>Offrir un café</a>
+  </div>
+  <div class="chiffres">
+    <div class="chiffre"><b id="n-dec">0</b><span>décisions résumées</span></div>
+    <div class="chiffre" id="c-una"><b id="n-una">0</b><span>à l'unanimité</span></div>
+    <div class="chiffre"><b id="n-sea">0</b><span id="t-sea"></span></div>
+  </div>
+</header>
+
+<main>
+  <section class="w"><p class="note" id="note-source"></p></section>
+
+  <section class="w" id="bloc-budget" hidden aria-labelledby="budget-titre">
+    <h2 id="budget-titre"></h2>
+    <div class="budget">
+      <p id="budget-texte" style="margin:0;color:var(--doux)"></p>
+      <div class="barre-budget" id="budget-barre" role="img" aria-label="Répartition du budget"></div>
+      <div class="legende" id="budget-legende"></div>
+      <p style="margin:10px 0 0;font-size:14px"><a id="budget-src" href="#">Source</a></p>
+    </div>
+  </section>
+
+  <section class="w" aria-labelledby="t-suivre">
+    <h2 id="t-suivre">Les dossiers à suivre</h2>
+    <div class="suivre" id="dossiers"></div>
+  </section>
+
+  <section class="w" aria-labelledby="t-seances">
+    <h2 id="t-seances">Séance par séance</h2>
+    <div class="outils">
+      <label class="q">Chercher un sujet
+        <input type="search" id="q" placeholder="cantine, école, budget, logement…" autocomplete="off">
+      </label>
+      <div class="themes" id="themes" role="group" aria-label="Filtrer par thème"></div>
+      <label class="case"><input type="checkbox" id="votes"> Voir seulement les décisions votées</label>
+    </div>
+    <p class="resultat" id="resultat" aria-live="polite"></p>
+    <div id="seances"></div>
+  </section>
+</main>
+
+<footer class="w">
+  <p>Projet indépendant et non officiel, fait par <a href="../../">Hadrien Basch</a>. Les résumés sont rédigés avec l'aide d'une IA à partir de documents publics : en cas de doute, seul le document officiel fait foi.</p>
+  <p class="pas-imprimer">Une erreur, une idée, votre commune ? <a href="mailto:hadrienbasch@gmail.com?subject=Ma%20commune%20en%20clair">hadrienbasch@gmail.com</a></p>
+</footer>
+<script src="data.js"></script>
+<script src="../app.js"></script>
+</body>
+</html>

@@ -3,209 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ma commune en clair · Saint-Laurent-en-Royans</title>
-<meta name="description" content="Les décisions du conseil municipal de Saint-Laurent-en-Royans, expliquées simplement, avec le lien vers chaque procès-verbal officiel.">
-<meta property="og:title" content="Ma commune en clair · Saint-Laurent-en-Royans">
-<meta property="og:description" content="Ce que le conseil municipal a décidé, sans jargon. Chaque point renvoie au procès-verbal officiel.">
+<title>Ma commune en clair</title>
+<meta name="description" content="Les décisions des conseils municipaux, expliquées simplement. Saint-Laurent-en-Royans, Marseille… et bientôt votre commune.">
+<meta property="og:title" content="Ma commune en clair">
+<meta property="og:description" content="Ce que votre conseil municipal a décidé, sans jargon, avec le lien vers chaque document officiel.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5C6E'/%3E%3Cpath d='M7 25h18M9 25V14l7-5 7 5v11M14 25v-5h4v5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
-<style>
-  :root { --fond:#F3F5F5; --blanc:#FFFFFF; --encre:#14262B; --doux:#3D4F54; --trait:#C9D3D5; --bleu:#0F5C6E; --bleu-f:#0A3F4C; --jaune:#FFF4DB; --brun:#7A4E00; --display:"Bricolage Grotesque", Arial, sans-serif; color-scheme: light; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--fond); color: var(--encre); font-family: "Atkinson Hyperlegible", Arial, sans-serif; font-size: 17px; line-height: 1.6; }
-  a { color: var(--bleu); } a:hover { color: var(--bleu-f); }
-  :focus-visible { outline: 3px solid #E3A72F; outline-offset: 2px; }
-  .w { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
-  .barre { background: var(--bleu); color: #fff; }
-  .barre .w { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; padding-top: 16px; padding-bottom: 16px; }
-  .barre a { color: #fff; font-size: 15px; }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; }
-  h1, h2, h3 { font-family: var(--display); font-weight: 800; margin: 0; }
-  header.w { padding-top: 52px; padding-bottom: 24px; }
-  .lieu { margin: 0 0 10px; font-weight: 700; color: var(--bleu); }
-  h1 { font-size: clamp(36px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.02em; margin-bottom: 18px; max-width: 16ch; }
-  .chapeau { margin: 0; font-size: 20px; color: var(--doux); max-width: 58ch; }
-  .chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 30px; }
-  .chiffre { background: var(--blanc); border-radius: 14px; padding: 18px 20px; }
-  .chiffre b { display: block; font-family: var(--display); font-size: 40px; line-height: 1; }
-  .chiffre span { color: var(--doux); }
-  section.w { padding-top: 24px; }
-  h2 { font-size: 28px; margin-bottom: 14px; }
-  .suivre { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
-  .dossier { background: var(--jaune); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; }
-  .dossier small { font-size: 14px; font-weight: 700; color: var(--brun); }
-  .dossier strong { font-size: 19px; line-height: 1.25; }
-  .dossier span { color: var(--doux); font-size: 16px; }
-  .outils { background: var(--blanc); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-  .outils label.q { display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 15px; }
-  .outils input[type=search] { font: inherit; font-weight: 400; font-size: 17px; padding: 12px 14px; border: 2px solid var(--trait); border-radius: 10px; color: var(--encre); }
-  .themes { display: flex; flex-wrap: wrap; gap: 8px; }
-  .themes button { font: inherit; font-size: 15px; font-weight: 700; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 2px solid var(--trait); background: var(--blanc); color: var(--encre); cursor: pointer; }
-  .themes button[aria-pressed="true"] { background: var(--bleu); border-color: var(--bleu); color: #fff; }
-  .case { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
-  .case input { width: 20px; height: 20px; accent-color: var(--bleu); }
-  .resultat { margin: 14px 2px 0; color: var(--doux); font-size: 15px; }
-  .seance { margin-top: 28px; }
-  .seance-tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; padding-bottom: 10px; border-bottom: 2px solid var(--encre); margin-bottom: 12px; }
-  .seance-tete h3 { font-size: 24px; }
-  .seance-tete a { font-size: 15px; }
-  .scan { margin: 0; padding: 14px 16px; border: 2px dashed var(--trait); border-radius: 12px; color: var(--doux); font-size: 16px; }
-  .points { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-  .point { background: var(--blanc); border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 0 #DCE3E4; }
-  .point.info { background: #FAFBFB; border: 1px solid #DCE3E4; box-shadow: none; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #EEF2F3; color: var(--doux); }
-  .tag.dec { background: var(--bleu); color: #fff; }
-  .tag.inf { background: var(--jaune); color: var(--brun); }
-  .point h4 { font-size: 18px; line-height: 1.3; margin: 10px 0 6px; }
-  .point p { margin: 0; color: var(--doux); font-size: 16px; }
-  .point .vote { margin-top: 10px; font-size: 14px; display: flex; align-items: center; gap: 6px; }
-  footer.w { margin-top: 56px; padding-top: 28px; padding-bottom: 56px; border-top: 1px solid var(--trait); color: var(--doux); font-size: 15px; }
-  footer p { margin: 0 0 8px; }
-  [hidden] { display: none !important; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="barre"><div class="w">
-  <div class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/></svg>Ma commune en clair</div>
-  <a href="https://www.saintlaurentenroyans.fr/ma-mairie/conseils-municipaux/">Tous les procès-verbaux sur le site de la mairie</a>
+  <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/></svg>Ma commune en clair</span>
+  <a href="../">Les autres outils d'Hadrien</a>
 </div></div>
 
 <header class="w">
-  <p class="lieu">Saint-Laurent-en-Royans · Drôme</p>
-  <h1>Ce que le conseil municipal a décidé, sans jargon.</h1>
-  <p class="chapeau">Les procès-verbaux officiels, réécrits en langage simple. Chaque point renvoie au document d'origine.</p>
-  <div class="chiffres">
-    <div class="chiffre"><b id="n-dec">0</b><span>décisions votées</span></div>
-    <div class="chiffre"><b id="n-una">0</b><span>à l'unanimité</span></div>
-    <div class="chiffre"><b id="n-sea">0</b><span>séances résumées, d'avril à juin 2026</span></div>
+  <h1>Ce que votre conseil municipal décide, enfin lisible.</h1>
+  <p class="chapeau">Les décisions des conseils municipaux sont publiques. Mais entre les PDF de 30 pages, les scans et les sites introuvables, presque personne ne les lit. Ici, elles sont réécrites en langage simple, avec un lien vers chaque source.</p>
+  <div class="actions">
+    <a class="btn" href="saint-laurent-en-royans/">Voir Saint-Laurent-en-Royans</a>
+    <a class="btn clair" href="marseille/">Voir Marseille</a>
+    <a class="btn clair" id="cafe" href="#" hidden>Offrir un café</a>
   </div>
 </header>
 
 <main>
-  <section class="w" aria-labelledby="t-suivre">
-    <h2 id="t-suivre">Les dossiers à suivre</h2>
-    <div class="suivre">
-      <div class="dossier"><small>Livraison prévue le 2 novembre</small><strong>La nouvelle école</strong><span>Maternelles transférées en janvier 2027, si la demande est acceptée.</span></div>
-      <div class="dossier"><small>Piste à l'étude</small><strong>Un espace médical</strong><span>Projet avec le promoteur DAH, le long des HLM.</span></div>
-      <div class="dossier"><small>Pas d'engagement</small><strong>Police pluri-communale</strong><span>42 000 € pour un agent : jugé trop cher, autres solutions cherchées.</span></div>
-      <div class="dossier"><small>Réunion publique annoncée</small><strong>Tri des déchets</strong><span>16 poubelles de village remplacées, emplacements à définir.</span></div>
+  <section class="w" aria-labelledby="t-communes">
+    <h2 id="t-communes">Les communes</h2>
+    <div class="communes">
+      <a class="commune" href="saint-laurent-en-royans/"><strong>Saint-Laurent-en-Royans</strong><span>Drôme · 4 séances résumées à partir des procès-verbaux officiels</span></a>
+      <a class="commune" href="marseille/"><strong>Marseille</strong><span>Bouches-du-Rhône · démonstration, quelques décisions de 2026</span></a>
     </div>
   </section>
 
-  <section class="w" aria-labelledby="t-seances">
-    <h2 id="t-seances">Séance par séance</h2>
-    <div class="outils">
-      <label class="q">Chercher un sujet
-        <input type="search" id="q" placeholder="cantine, école, forêt, médecins…" autocomplete="off">
-      </label>
-      <div class="themes" id="themes" role="group" aria-label="Filtrer par thème"></div>
-      <label class="case"><input type="checkbox" id="votes"> Voir seulement les décisions votées</label>
+  <section class="w" aria-labelledby="t-pourquoi">
+    <h2 id="t-pourquoi">Pourquoi c'est utile</h2>
+    <div class="problemes">
+      <div class="probleme"><strong>Introuvables</strong><span>Les délibérations sont souvent rangées loin dans le site, ou derrière des liens qui ne marchent plus (« objet non disponible »).</span></div>
+      <div class="probleme"><strong>Illisibles</strong><span>Des procès-verbaux de dizaines de pages, parfois publiés en image scannée : impossible d'y chercher un mot.</span></div>
+      <div class="probleme"><strong>Trop nombreuses</strong><span>Une grande ville vote plus de 150 délibérations par séance. Personne ne peut tout suivre.</span></div>
+      <div class="probleme"><strong>Pleines de jargon</strong><span>CCAS, CCID, admission en non-valeur… Ici, chaque terme est expliqué.</span></div>
     </div>
-    <p class="resultat" id="resultat" aria-live="polite"></p>
-    <div id="seances"></div>
+  </section>
+
+  <section class="w" aria-labelledby="t-vous">
+    <h2 id="t-vous">Et votre commune ?</h2>
+    <p class="note">Élu, secrétaire de mairie ou habitant : écrivez-moi pour ajouter votre commune. <a href="mailto:hadrienbasch@gmail.com?subject=Ma%20commune%20en%20clair%20%3A%20ajouter%20ma%20commune">hadrienbasch@gmail.com</a></p>
   </section>
 </main>
 
 <footer class="w">
-  <p>Projet indépendant et non officiel, fait par <a href="../">Hadrien Basch</a>, habitant de Saint-Laurent-en-Royans. Les résumés sont rédigés avec l'aide d'une IA à partir des procès-verbaux publics : en cas de doute, seul le procès-verbal officiel fait foi.</p>
-  <p>Une erreur, une idée ? <a href="mailto:hadrienbasch@gmail.com?subject=Ma%20commune%20en%20clair">hadrienbasch@gmail.com</a></p>
+  <p>Projet indépendant et non officiel, fait par <a href="../">Hadrien Basch</a>, à Saint-Laurent-en-Royans. Les résumés sont rédigés avec l'aide d'une IA à partir de documents publics : en cas de doute, seul le document officiel fait foi.</p>
 </footer>
-
 <script>
-const D = 'decision', I = 'info';
-const SEANCES = [
-  { titre: 'Conseil du 29 juillet 2026', pv: 'https://www.saintlaurentenroyans.fr/wp-content/uploads/2026/09/PROCES-VERBAL-DU-29.07.2026-signe.pdf', scan: true, points: [] },
-  { titre: 'Conseil du 24 juin 2026', pv: 'https://www.saintlaurentenroyans.fr/wp-content/uploads/2026/07/PROCES-VERBAL-DU-24.06.2026.pdf', points: [
-    { k: D, theme: 'École et enfants', titre: 'Cantine : les parents désinscrivent eux-mêmes leurs enfants', texte: 'Nouveau règlement périscolaire 2026-2027. Le repas augmente de 5 centimes, sauf pour les familles aux tarifs à 0,50 € et 1 €.', vote: '12 pour, 3 abstentions', unanime: false },
-    { k: D, theme: 'Argent', titre: '2 777 € de factures impayées abandonnées', texte: 'Sommes que la commune ne pourra pas récupérer : 666,68 € (budget principal), 754,19 € (assainissement) et 1 356,14 € (eau).', vote: 'Unanimité, 15 voix (deux votes)', unanime: true },
-    { k: D, theme: 'Mairie', titre: "L'ONF facturera les ventes de bois", texte: "Gratuitement, l'Office national des forêts émettra les factures électroniques des ventes de bois simples, pour la durée du mandat.", vote: 'Unanimité, 15 voix', unanime: true },
-    { k: I, theme: 'École et enfants', titre: 'Nouvelle école : pas de rafraîchissement prévu', texte: "Le cahier des charges du chantier ne prévoit pas de système de rafraîchissement. Une rencontre avec le maître d'œuvre était prévue." },
-    { k: I, theme: 'Santé et social', titre: 'Canicule : recensement des plus de 75 ans', texte: 'La mairie recense les habitants de plus de 75 ans fragiles ou isolés. En vigilance rouge, la fermeture des écoles serait envisagée.' },
-    { k: I, theme: 'Vie locale', titre: "Fête de l'été : 150 vététistes, 58 doublettes", texte: "La mairie a financé le feu d'artifice, le DJ (850 €), les barnums, la sécurité et la Sacem." },
-    { k: I, theme: 'Mairie', titre: 'Sénatoriales : le vote de la commune annulé', texte: 'Le préfet a annulé la désignation des délégués : la liste ne respectait pas la parité. Une nouvelle séance devait avoir lieu avant le 10 juillet.' }
-  ]},
-  { titre: 'Conseil du 5 juin 2026', pv: 'https://www.saintlaurentenroyans.fr/wp-content/uploads/2026/07/PROCES-VERBAL-CM-du-05.06.26.pdf', points: [
-    { k: D, theme: 'Santé et social', titre: 'Une commission « Affaires sociales » est créée', texte: 'Quatre élues et quatre habitantes. Le CCAS sera aussi réuni sur les aides aux loisirs et aux vacances.', vote: 'Unanimité, 14 voix', unanime: true },
-    { k: D, theme: 'Mairie', titre: 'Les sujets de formation des élus sont fixés', texte: 'Urbanisme, marchés publics, transition écologique, gestion du personnel, risques… Crédits inscrits au budget chaque année, sans montant indiqué.', vote: 'Unanimité, 14 voix', unanime: true }
-  ]},
-  { titre: 'Conseil du 27 mai 2026', pv: 'https://www.saintlaurentenroyans.fr/wp-content/uploads/2026/06/PROCES-VERBAL-DU-27.05.2026-2.pdf', points: [
-    { k: D, theme: 'Cadre de vie', titre: '16 poubelles de village vont être remplacées', texte: 'La commune rejoint un projet commun avec la communauté de communes pour le tri des emballages hors de la maison. Réunion sur les points de collecte le 9 juillet, puis réunion publique.', vote: 'Unanimité, 15 voix', unanime: true },
-    { k: D, theme: 'Mairie', titre: 'Commission de contrôle de la liste électorale : nouveaux membres', texte: "Les adjoints, qui ne peuvent pas en faire partie, sont remplacés par d'autres conseillers.", vote: 'Unanimité, 15 voix', unanime: true },
-    { k: I, theme: 'École et enfants', titre: 'Nouvelle école : livraison prévue le 2 novembre', texte: 'Retard dû aux intempéries. Le transfert des maternelles est demandé pour janvier 2027. Aucun emprunt contracté à ce stade.' },
-    { k: I, theme: 'Santé et social', titre: 'Espace médical : nouvelle piste près des HLM', texte: 'Les médecins ne veulent pas du projet sous la médiathèque. Une piste est étudiée avec le promoteur DAH, le long des HLM.' },
-    { k: I, theme: 'Mairie', titre: 'La mairie arrive sur Panneau Pocket', texte: "540 € pour trois ans et demi. L'application s'ajoute à Facebook, au site et au panneau d'affichage." },
-    { k: I, theme: 'Vie locale', titre: 'Un conseil des jeunes et un conseil des aînés', texte: "Mise en place à partir de septembre. Repas ou colis au choix pour les aînés, avec des produits d'agriculteurs locaux." },
-    { k: I, theme: 'Argent', titre: 'Bois de la parcelle n°6 : prix plancher atteint', texte: 'La vente a atteint le prix plancher de 11 000 €.' }
-  ]},
-  { titre: 'Conseil du 29 avril 2026', pv: 'https://www.saintlaurentenroyans.fr/wp-content/uploads/2026/06/PROCES-VERBAL-DU-29.04.2026.pdf', points: [
-    { k: D, theme: 'Cadre de vie', titre: 'Blattes dans le centre-bourg : la commune avance les frais', texte: "Une entreprise traite commerces, logements et réseau d'assainissement. La commune paie la facture puis se fait rembourser par les propriétaires concernés.", vote: 'Unanimité, 15 voix', unanime: true },
-    { k: D, theme: 'Argent', titre: 'Électricité : achat groupé avec les communes de la Drôme', texte: "Adhésion au groupement de Territoire d'énergie Drôme pour 2028-2031, sans obligation d'y passer si un meilleur tarif est trouvé.", vote: 'Unanimité, 15 voix', unanime: true },
-    { k: D, theme: 'Argent', titre: 'Forêt communale : deux parcelles de bois', texte: "Parcelle n°6 vendue aux enchères par l'ONF, parcelle n°7 exploitée en 2027.", vote: 'Unanimité, 15 voix', unanime: true },
-    { k: D, theme: 'Mairie', titre: 'Secrétariat partagé avec Échevis', texte: 'La commune continue de prêter 5 heures de secrétariat par semaine à Échevis, pour la durée du mandat.', vote: 'Unanimité, 15 voix', unanime: true },
-    { k: D, theme: 'Mairie', titre: 'Commission des impôts locaux : 21 noms proposés', texte: "L'administration fiscale choisira 6 titulaires et 6 suppléants parmi ces 21 contribuables.", vote: 'Unanimité, 15 voix', unanime: true },
-    { k: I, theme: 'Cadre de vie', titre: 'Police pluri-communale : jugée trop chère', texte: "Coût proposé : 42 000 € pour un agent supplémentaire, avec un engagement jusqu'en 2032. La commune ne s'engage pas et cherche d'autres solutions." },
-    { k: I, theme: 'Cadre de vie', titre: 'Chantier route de Buyet', texte: "Fin des travaux sur l'eau. Réseaux électriques et télécoms à partir du 18 mai, chaussée refaite à l'automne." },
-    { k: I, theme: 'Santé et social', titre: 'Une mutuelle pour tous les habitants ?', texte: "La Région porte une mutuelle collective sans condition de ressources ni d'âge. La commune va se renseigner." }
-  ]},
-  { titre: 'Conseil du 1er avril 2026', pv: 'https://www.saintlaurentenroyans.fr/wp-content/uploads/2026/04/Proces-Verbal-CM-du-1er-avril-2026.pdf', scan: true, points: [] }
-];
-const THEMES = ['Tout', 'École et enfants', 'Argent', 'Cadre de vie', 'Santé et social', 'Vie locale', 'Mairie'];
-const etat = { q: '', theme: 'Tout', votes: false };
-const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
-
-let nDec = 0, nUna = 0, nSea = 0;
-SEANCES.forEach(s => { if (s.points.length) nSea++; s.points.forEach(p => { if (p.k === D) { nDec++; if (p.unanime) nUna++; } }); });
-document.getElementById('n-dec').textContent = nDec;
-document.getElementById('n-una').textContent = nUna;
-document.getElementById('n-sea').textContent = nSea;
-
-const zone = document.getElementById('themes');
-THEMES.forEach(t => { const b = el('button', null, t); b.type = 'button'; b.setAttribute('aria-pressed', t === 'Tout'); b.onclick = () => { etat.theme = t; rendre(); }; zone.appendChild(b); });
-document.getElementById('q').addEventListener('input', e => { etat.q = e.target.value; rendre(); });
-document.getElementById('votes').addEventListener('change', e => { etat.votes = e.target.checked; rendre(); });
-
-function rendre() {
-  const q = etat.q.trim().toLowerCase();
-  const filtre = q !== '' || etat.theme !== 'Tout' || etat.votes;
-  zone.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.textContent === etat.theme));
-  const box = document.getElementById('seances'); box.textContent = '';
-  let n = 0;
-  SEANCES.forEach(s => {
-    const pts = s.points.filter(p => (etat.theme === 'Tout' || p.theme === etat.theme) && (!etat.votes || p.k === D) && (!q || (p.titre + ' ' + p.texte + ' ' + p.theme).toLowerCase().includes(q)));
-    n += pts.length;
-    if (!pts.length && (filtre || !s.scan)) return;
-    const sec = el('section', 'seance');
-    const tete = el('div', 'seance-tete');
-    tete.appendChild(el('h3', null, s.titre));
-    const a = el('a', null, 'Lire le procès-verbal officiel'); a.href = s.pv; tete.appendChild(a);
-    sec.appendChild(tete);
-    if (s.scan) sec.appendChild(el('p', 'scan', "Ce procès-verbal a été publié en image scannée : il n'est pas encore résumé ici."));
-    const grille = el('div', 'points');
-    pts.forEach(p => {
-      const art = el('article', p.k === D ? 'point' : 'point info');
-      const tags = el('div', 'tags');
-      tags.appendChild(el('span', p.k === D ? 'tag dec' : 'tag inf', p.k === D ? 'Décision votée' : 'Information'));
-      tags.appendChild(el('span', 'tag', p.theme));
-      art.appendChild(tags);
-      art.appendChild(el('h4', null, p.titre));
-      art.appendChild(el('p', null, p.texte));
-      if (p.vote) {
-        const v = el('p', 'vote');
-        v.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F5C6E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
-        v.appendChild(document.createTextNode(p.vote));
-        art.appendChild(v);
-      }
-      grille.appendChild(art);
-    });
-    sec.appendChild(grille);
-    box.appendChild(sec);
-  });
-  document.getElementById('resultat').textContent = !filtre ? 'Toutes les séances, de la plus récente à la plus ancienne.' : (n === 0 ? 'Aucun point ne correspond. Essayez un autre mot ou un autre thème.' : (n === 1 ? '1 point correspond.' : n + ' points correspondent.'));
-}
-rendre();
+  // Même lien que dans app.js : laisser vide pour masquer le bouton.
+  var LIEN_CAFE = '';
+  if (LIEN_CAFE) { var c = document.getElementById('cafe'); c.href = LIEN_CAFE; c.hidden = false; }
 </script>
 </body>
 </html>
