@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ma commune en clair</title>
+<meta name="description" content="Les décisions des conseils municipaux, expliquées simplement. Saint-Laurent-en-Royans, Marseille… et bientôt votre commune.">
+<meta property="og:title" content="Ma commune en clair">
+<meta property="og:description" content="Ce que votre conseil municipal a décidé, sans jargon, avec le lien vers chaque document officiel.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F5C6E'/%3E%3Cpath d='M7 25h18M9 25V14l7-5 7 5v11M14 25v-5h4v5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="barre"><div class="w">
+  <span class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/></svg>Ma commune en clair</span>
+  <a href="../../">Les autres outils d'Hadrien</a>
+</div></div>
+
+<header class="w">
+  <h1>Ce que votre conseil municipal décide, enfin lisible.</h1>
+  <p class="chapeau">Les décisions des conseils municipaux sont publiques. Mais entre les PDF de 30 pages, les scans et les sites introuvables, presque personne ne les lit. Ici, elles sont réécrites en langage simple, avec un lien vers chaque source.</p>
+  <div class="actions">
+    <a class="btn" href="../saint-laurent-en-royans/">Voir Saint-Laurent-en-Royans</a>
+    <a class="btn clair" href="../marseille/">Voir Marseille</a>
+    <a class="btn clair" id="cafe" href="#" hidden>Offrir un café</a>
+  </div>
+</header>
+
+<main>
+  <section class="w" aria-labelledby="t-communes">
+    <h2 id="t-communes">Les communes</h2>
+    <div class="communes">
+      <a class="commune" href="../saint-laurent-en-royans/"><strong>Saint-Laurent-en-Royans</strong><span>Drôme · 4 séances résumées à partir des procès-verbaux officiels</span></a>
+      <a class="commune" href="../marseille/"><strong>Marseille</strong><span>Bouches-du-Rhône · démonstration, quelques décisions de 2026</span></a>
+    </div>
+  </section>
+
+  <section class="w" aria-labelledby="t-pourquoi">
+    <h2 id="t-pourquoi">Pourquoi c'est utile</h2>
+    <div class="problemes">
+      <div class="probleme"><strong>Introuvables</strong><span>Les délibérations sont souvent rangées loin dans le site, ou derrière des liens qui ne marchent plus (« objet non disponible »).</span></div>
+      <div class="probleme"><strong>Illisibles</strong><span>Des procès-verbaux de dizaines de pages, parfois publiés en image scannée : impossible d'y chercher un mot.</span></div>
+      <div class="probleme"><strong>Trop nombreuses</strong><span>Une grande ville vote plus de 150 délibérations par séance. Personne ne peut tout suivre.</span></div>
+      <div class="probleme"><strong>Pleines de jargon</strong><span>CCAS, CCID, admission en non-valeur… Ici, chaque terme est expliqué.</span></div>
+    </div>
+  </section>
+
+  <section class="w" aria-labelledby="t-vous">
+    <h2 id="t-vous">Et votre commune ?</h2>
+    <p class="note">Élu, secrétaire de mairie ou habitant : écrivez-moi pour ajouter votre commune. <a href="mailto:hadrienbasch@gmail.com?subject=Ma%20commune%20en%20clair%20%3A%20ajouter%20ma%20commune">hadrienbasch@gmail.com</a></p>
+  </section>
+</main>
+
+<footer class="w">
+  <p>Projet indépendant et non officiel, fait par <a href="../../">Hadrien Basch</a>, à Saint-Laurent-en-Royans. Les résumés sont rédigés avec l'aide d'une IA à partir de documents publics : en cas de doute, seul le document officiel fait foi.</p>
+</footer>
+<script>
+  // Même lien que dans app.js : laisser vide pour masquer le bouton.
+  var LIEN_CAFE = '';
+  if (LIEN_CAFE) { var c = document.getElementById('cafe'); c.href = LIEN_CAFE; c.hidden = false; }
+</script>
+</body>
+</html>
